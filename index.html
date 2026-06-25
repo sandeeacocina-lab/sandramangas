@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#1F94A3"/>
+    <text x="50" y="64" font-family="Zilla Slab, Georgia, serif" font-size="46" font-weight="700" fill="#FFFFFF" text-anchor="middle">SM</text>
+  </svg>
+</template>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#FFFFFF;}
+  a{color:inherit;}
+  @keyframes smRise{from{transform:translateY(20px);}to{transform:translateY(0);}}
+  .sm-reveal{opacity:1;}
+  .sm-armed .sm-reveal.sm-in{animation:smRise .6s cubic-bezier(.2,.7,.2,1) both;}
+  .sm-img{overflow:hidden;}
+  .sm-zoom{transition:transform .7s cubic-bezier(.2,.7,.2,1);}
+  .sm-img:hover .sm-zoom{transform:scale(1.07);}
+  .sm-card{transition:transform .38s cubic-bezier(.2,.7,.2,1),box-shadow .38s ease;}
+  .sm-card:hover{transform:translateY(-6px);box-shadow:0 24px 46px -28px rgba(39,157,172,.6);}
+  .sm-card:hover .sm-zoom{transform:scale(1.07);}
+  .sm-link{cursor:pointer;text-decoration:none;}
+  .sm-link::after{content:"";position:absolute;left:0;bottom:-5px;height:2px;width:100%;background:currentColor;border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform .34s cubic-bezier(.2,.7,.2,1);}
+  .sm-link:hover::after{transform:scaleX(1);}
+  .sm-pill{transition:transform .25s ease,box-shadow .25s ease;text-decoration:none;}
+  .sm-pill:hover{transform:translateY(-2px);box-shadow:0 14px 26px -12px rgba(232,92,108,.6);}
+  .sm-btn{transition:background .22s ease;}
+  .sm-btn:hover{background:#D84C5C;}
+  .sm-pill-out{transition:background .2s ease,color .2s ease;}
+  .sm-pill-out:hover{background:#279DAC;color:#FFFFFF;}
+  .sm-side{transition:background .2s ease;}
+  .sm-side:hover{background:rgba(39,157,172,.10);}
+  .sm-side:hover .sm-zoom{transform:scale(1.07);}
+  .sm-field{font:400 15px 'Source Sans 3',sans-serif;color:#33424D;width:100%;border:1px solid #CFE0E6;border-radius:10px;padding:13px 16px;background:#FFFFFF;outline:none;transition:border-color .2s ease,box-shadow .2s ease;}
+  .sm-field:focus{border-color:#279DAC;box-shadow:0 0 0 3px rgba(39,157,172,.15);}
+  @media (prefers-reduced-motion:reduce){.sm-armed .sm-reveal{opacity:1;}.sm-armed .sm-reveal.sm-in{animation:none;}.sm-zoom,.sm-card,.sm-pill{transition:none;}}
+</style>
+</helmet>
+
+<div data-screen-label="Sandra Mangas — sitio" style="background:#FFFFFF;color:#33424D;min-height:100vh;font-family:'Source Sans 3',sans-serif;display:flex;flex-direction:column;">
+
+  <!-- NAV -->
+  <div style="position:sticky;top:0;z-index:30;background:rgba(255,255,255,.72);backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);border-bottom:1px solid rgba(228,236,240,.9);box-shadow:0 1px 18px -12px rgba(39,80,95,.5);">
+    <div style="max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;">
+      <a href="#/home" class="sm-link" style="position:relative;font:700 16px 'Zilla Slab',serif;letter-spacing:.02em;color:#33424D;">Sandra&nbsp;Mangas</a>
+      <div style="display:flex;align-items:center;gap:30px;">
+        <nav style="display:flex;gap:26px;font:600 14px 'Source Sans 3',sans-serif;letter-spacing:.01em;">
+          <a href="#/home" class="sm-link" style="position:relative;color:{{ navHomeColor }};">{{ t.navHome }}</a><a href="#/blog" class="sm-link" style="position:relative;color:{{ navBlogColor }};">{{ t.navBlog }}</a><a href="#/about" class="sm-link" style="position:relative;color:{{ navAboutColor }};">{{ t.navAbout }}</a>
+        </nav>
+        <div style="display:flex;border:1px solid #E1556A;border-radius:999px;overflow:hidden;font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.05em;cursor:pointer;">
+          <span style="{{ esTabStyle }}" data-lang="es">ES</span>
+          <span style="{{ enTabStyle }}" data-lang="en">EN</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="flex:1;">
+
+  <!-- ============ HOME VIEW ============ -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <!-- MASTHEAD -->
+    <div style="background:#E85C6C;color:#FFFFFF;">
+      <div class="sm-reveal" style="max-width:1120px;margin:0 auto;padding:26px 32px 40px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.55);border-bottom:1px solid rgba(255,255,255,.55);padding:9px 2px;font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.22em;">
+          <span>{{ t.issue }}</span>
+          <span>{{ t.date }}</span>
+        </div>
+        <h1 style="margin:26px 0 0;text-align:center;font:700 clamp(46px,8.5vw,104px)/0.98 'Zilla Slab',serif;letter-spacing:-.005em;">{{ t.mastTitle }}</h1>
+        <div style="margin:16px 0 0;text-align:center;font:700 13px 'Source Sans 3',sans-serif;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.92);">{{ t.mastSub }}</div>
+      </div>
+    </div>
+
+    <!-- FEATURED + SIDEBAR -->
+    <div style="max-width:1120px;margin:0 auto;padding:44px 32px 8px;display:flex;flex-wrap:wrap;gap:40px;align-items:stretch;">
+      <div class="sm-reveal" style="flex:3 1 540px;min-width:300px;">
+        <div class="sm-img" style="position:relative;aspect-ratio:16/10;border:1px solid rgba(39,157,172,.28);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+          <img class="sm-zoom" src="images/featured-desk.jpg" alt="Espacio de trabajo digital" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;">
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+          <span style="display:inline-block;width:26px;height:2px;background:#E85C6C;"></span>
+          <span style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.2em;color:#E85C6C;">{{ t.kicker }}</span>
+        </div>
+        <h2 style="margin:0 0 16px;font:700 clamp(34px,4.6vw,52px)/1.02 'Zilla Slab',serif;color:#1F94A3;">{{ t.heroTitle }}</h2>
+        <p style="margin:0 0 18px;font:600 19px/1.5 'Source Sans 3',sans-serif;color:#279DAC;">{{ t.heroIntro }}</p>
+        <p style="margin:0 0 26px;font:400 17px/1.62 'Source Sans 3',sans-serif;color:#46555F;max-width:60ch;">{{ t.heroBody }}</p>
+        <a href="#/blog" class="sm-pill" style="display:inline-flex;align-items:center;gap:9px;background:#E85C6C;color:#FFFFFF;font:700 14px 'Source Sans 3',sans-serif;padding:13px 26px;border-radius:999px;cursor:pointer;">{{ t.readMore }}</a>
+      </div>
+
+      <div class="sm-reveal" style="flex:1 1 280px;min-width:240px;background:#D6E9F2;border-radius:10px;padding:26px 24px;display:flex;flex-direction:column;">
+        <div style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.2em;color:#2C7A93;text-transform:uppercase;margin-bottom:18px;">{{ t.sideHead }}</div>
+        <sc-for list="{{ t.sideItems }}" as="s" hint-placeholder-count="6">
+          <a href="#/t/{{ s.key }}" class="sm-side" style="text-decoration:none;color:inherit;cursor:pointer;display:flex;gap:14px;align-items:flex-start;padding:14px 8px;margin:0 -8px;border-top:1px solid rgba(44,122,147,.22);border-radius:8px;">
+            <div class="sm-img" style="position:relative;flex:0 0 64px;height:64px;border-radius:8px;border:1px solid rgba(44,122,147,.3);">
+              <img class="sm-zoom" src="{{ s.img }}" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;">
+            </div>
+            <div>
+              <div style="font:700 15px 'Zilla Slab',serif;color:#1F94A3;margin-bottom:4px;">{{ s.title }}</div>
+              <div style="font:400 13.5px/1.45 'Source Sans 3',sans-serif;color:#3D5560;">{{ s.text }}</div>
+            </div>
+          </a>
+        </sc-for>
+        <a href="#/blog" class="sm-link" style="position:relative;margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding-top:18px;font:700 13px 'Source Sans 3',sans-serif;letter-spacing:.04em;color:#1F94A3;cursor:pointer;">{{ t.allRes }}</a>
+      </div>
+    </div>
+
+    <!-- THEME BLOCKS -->
+    <div style="max-width:1120px;margin:0 auto;padding:40px 32px 8px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;">
+        <sc-for list="{{ t.themes }}" as="b" hint-placeholder-count="3">
+          <div class="sm-reveal sm-card" style="background:{{ b.bg }};color:#FFFFFF;border-radius:12px;padding:26px 24px 28px;cursor:default;">
+            <div style="width:54px;height:54px;border-radius:999px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font:700 24px 'Zilla Slab',serif;margin-bottom:18px;">{{ b.n }}</div>
+            <div style="font:700 11px 'Source Sans 3',sans-serif;letter-spacing:.2em;opacity:.92;margin-bottom:8px;">{{ b.label }}</div>
+            <h3 style="margin:0 0 10px;font:700 23px/1.1 'Zilla Slab',serif;">{{ b.title }}</h3>
+            <p style="margin:0;font:400 14.5px/1.5 'Source Sans 3',sans-serif;color:rgba(255,255,255,.94);">{{ b.text }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- PULL QUOTE -->
+    <div style="max-width:1120px;margin:0 auto;padding:48px 32px;">
+      <div class="sm-reveal" style="border-top:2px solid #E85C6C;border-bottom:2px solid #E85C6C;padding:34px 0;text-align:center;">
+        <p style="margin:0 auto;max-width:22ch;font:700 italic clamp(28px,4vw,46px)/1.18 'Zilla Slab',serif;color:#E85C6C;">{{ t.quote }}</p>
+        <div style="margin-top:16px;font:600 13px 'Source Sans 3',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#7A8893;">{{ t.quoteAttr }}</div>
+      </div>
+    </div>
+
+    <!-- NOVEDADES -->
+    <div style="max-width:1120px;margin:0 auto;padding:8px 32px 56px;">
+      <div class="sm-reveal" style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #279DAC;padding-bottom:14px;margin-bottom:34px;flex-wrap:wrap;gap:8px;">
+        <h2 style="margin:0;font:700 clamp(30px,4vw,42px) 'Zilla Slab',serif;color:#1F94A3;">{{ t.newsTitle }}</h2>
+        <a href="#/blog" class="sm-link" style="position:relative;font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.16em;color:#E85C6C;cursor:pointer;">{{ t.newsLabel }}</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:36px 32px;">
+        <sc-for list="{{ latest }}" as="a" hint-placeholder-count="6">
+          <a href="#/post/{{ a.slug }}" class="sm-reveal sm-card" style="display:block;text-decoration:none;color:inherit;background:#FFFFFF;border:1px solid #E7EFF2;border-radius:14px;overflow:hidden;cursor:pointer;">
+            <div class="sm-img" style="position:relative;aspect-ratio:3/2;border-bottom:1px solid #EDF3F5;">
+              <img class="sm-zoom" src="{{ a.img }}" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;">
+            </div>
+            <div style="padding:18px 20px 22px;">
+              <div style="font:700 11px 'Source Sans 3',sans-serif;letter-spacing:.12em;color:#E85C6C;margin-bottom:10px;">{{ a.date }}</div>
+              <h3 style="margin:0 0 8px;font:700 22px/1.12 'Zilla Slab',serif;color:#33424D;">{{ a.title }}</h3>
+              <p style="margin:0;font:400 15px/1.55 'Source Sans 3',sans-serif;color:#5A6B75;">{{ a.excerpt }}</p>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- SOBRE MI (resumen) -->
+    <div style="background:#F4FAFB;border-top:1px solid #E1EEF1;border-bottom:1px solid #E1EEF1;">
+      <div style="max-width:1120px;margin:0 auto;padding:60px 32px;display:flex;flex-wrap:wrap;gap:48px;align-items:center;">
+        <div class="sm-reveal sm-img" style="position:relative;flex:1 1 280px;min-width:240px;aspect-ratio:4/5;border:1px solid rgba(39,157,172,.28);display:flex;align-items:center;justify-content:center;border-radius:12px;">
+          <img class="sm-zoom" src="images/portrait.jpg" alt="Sandra Mangas" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;">
+        </div>
+        <div class="sm-reveal" style="flex:2 1 440px;min-width:300px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <span style="display:inline-block;width:26px;height:2px;background:#E85C6C;"></span>
+            <span style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.2em;color:#E85C6C;">{{ t.aboutKicker }}</span>
+          </div>
+          <h2 style="margin:0 0 18px;font:700 clamp(34px,4.4vw,52px)/1.02 'Zilla Slab',serif;color:#1F94A3;">{{ t.aboutTitle }}</h2>
+          <p style="margin:0 0 24px;font:400 17px/1.6 'Source Sans 3',sans-serif;color:#46555F;max-width:56ch;">{{ t.aboutBody }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:26px;">
+            <sc-for list="{{ t.areas }}" as="area" hint-placeholder-count="5">
+              <a href="#/a/{{ area.key }}" class="sm-pill-out" style="text-decoration:none;border:1px solid #279DAC;color:#1F94A3;border-radius:999px;padding:7px 15px;font:600 13px 'Source Sans 3',sans-serif;cursor:pointer;">{{ area.label }}</a>
+            </sc-for>
+          </div>
+          <a href="#/about" class="sm-pill" style="display:inline-flex;align-items:center;gap:9px;background:#279DAC;color:#FFFFFF;font:700 14px 'Source Sans 3',sans-serif;padding:13px 26px;border-radius:999px;cursor:pointer;">{{ t.moreAbout }}</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUSCRIBETE -->
+    <div style="max-width:1120px;margin:0 auto;padding:60px 32px;display:flex;flex-wrap:wrap;gap:48px;justify-content:space-between;">
+      <div class="sm-reveal" style="flex:1 1 380px;min-width:280px;">
+        <h2 style="margin:0 0 14px;font:700 clamp(30px,3.8vw,42px)/1.06 'Zilla Slab',serif;color:#33424D;max-width:18ch;">{{ t.ctaTitle }}</h2>
+        <p style="margin:0;font:400 16px/1.6 'Source Sans 3',sans-serif;color:#5A6B75;max-width:46ch;">{{ t.ctaBody }}</p>
+      </div>
+      <div class="sm-reveal" style="flex:1 1 320px;min-width:260px;">
+        <div style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.18em;color:#E85C6C;margin-bottom:16px;">{{ t.subscribe }}</div>
+        <div style="display:flex;border:1px solid #CFE0E6;border-radius:999px;overflow:hidden;margin-bottom:22px;background:#FFFFFF;">
+          <input class="sm-field" type="email" placeholder="{{ t.emailPh }}" style="flex:1;border:none;border-radius:0;">
+          <span class="sm-btn" style="background:#E85C6C;color:#FFFFFF;padding:14px 26px;font:700 14px 'Source Sans 3',sans-serif;cursor:pointer;white-space:nowrap;">{{ t.sendBtn }}</span>
+        </div>
+        <div style="display:flex;gap:24px;font:600 14px 'Source Sans 3',sans-serif;color:#279DAC;">
+          <a href="#/about" class="sm-link" style="position:relative;cursor:pointer;color:#279DAC;">{{ t.talk }}</a><a href="http://www.larecetadelafelicidad.com" target="_blank" rel="noopener" style="color:#279DAC;text-decoration:none;">{{ t.recipe }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ BLOG VIEW ============ -->
+  <sc-if value="{{ isBlog }}" hint-placeholder-val="{{ false }}">
+  <div style="max-width:1120px;margin:0 auto;padding:54px 32px 64px;">
+    <div class="sm-reveal" style="border-bottom:2px solid #279DAC;padding-bottom:22px;margin-bottom:40px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <span style="display:inline-block;width:26px;height:2px;background:#E85C6C;"></span>
+        <span style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.2em;color:#E85C6C;">{{ t.navBlog }}</span>
+      </div>
+      <h1 style="margin:0 0 14px;font:700 clamp(40px,6vw,64px)/1.0 'Zilla Slab',serif;color:#1F94A3;">{{ t.blogTitle }}</h1>
+      <p style="margin:0;font:400 18px/1.6 'Source Sans 3',sans-serif;color:#46555F;max-width:70ch;">{{ t.blogIntro }}</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:36px 32px;">
+      <sc-for list="{{ posts }}" as="a" hint-placeholder-count="9">
+        <a href="#/post/{{ a.slug }}" class="sm-reveal sm-card" style="display:block;text-decoration:none;color:inherit;background:#FFFFFF;border:1px solid #E7EFF2;border-radius:14px;overflow:hidden;cursor:pointer;">
+          <div class="sm-img" style="position:relative;aspect-ratio:3/2;border-bottom:1px solid #EDF3F5;">
+            <img class="sm-zoom" src="{{ a.img }}" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;">
+          </div>
+          <div style="padding:18px 20px 22px;">
+            <div style="font:700 11px 'Source Sans 3',sans-serif;letter-spacing:.12em;color:#E85C6C;margin-bottom:10px;">{{ a.date }}</div>
+            <h3 style="margin:0 0 8px;font:700 21px/1.14 'Zilla Slab',serif;color:#33424D;">{{ a.title }}</h3>
+            <p style="margin:0;font:400 15px/1.55 'Source Sans 3',sans-serif;color:#5A6B75;">{{ a.excerpt }}</p>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ FILTER VIEW ============ -->
+  <sc-if value="{{ isFilter }}" hint-placeholder-val="{{ false }}">
+  <div style="max-width:1120px;margin:0 auto;padding:54px 32px 64px;">
+    <div class="sm-reveal" style="border-bottom:2px solid #279DAC;padding-bottom:22px;margin-bottom:40px;">
+      <a href="#/blog" class="sm-link" style="position:relative;display:inline-flex;align-items:center;gap:7px;font:700 13px 'Source Sans 3',sans-serif;letter-spacing:.04em;color:#279DAC;cursor:pointer;margin-bottom:18px;">{{ t.allBlogLink }}</a>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <span style="display:inline-block;width:26px;height:2px;background:#E85C6C;"></span>
+        <span style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.2em;color:#E85C6C;">{{ filterKicker }}</span>
+      </div>
+      <h1 style="margin:0 0 12px;font:700 clamp(40px,6vw,64px)/1.0 'Zilla Slab',serif;color:#1F94A3;">{{ filterTitle }}</h1>
+      <p style="margin:0;font:600 16px 'Source Sans 3',sans-serif;color:#7A8893;">{{ filterCount }}</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:36px 32px;">
+      <sc-for list="{{ filtered }}" as="a" hint-placeholder-count="6">
+        <a href="#/post/{{ a.slug }}" class="sm-reveal sm-card" style="display:block;text-decoration:none;color:inherit;background:#FFFFFF;border:1px solid #E7EFF2;border-radius:14px;overflow:hidden;cursor:pointer;">
+          <div class="sm-img" style="position:relative;aspect-ratio:3/2;border-bottom:1px solid #EDF3F5;">
+            <img class="sm-zoom" src="{{ a.img }}" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;">
+          </div>
+          <div style="padding:18px 20px 22px;">
+            <div style="font:700 11px 'Source Sans 3',sans-serif;letter-spacing:.12em;color:#E85C6C;margin-bottom:10px;">{{ a.date }}</div>
+            <h3 style="margin:0 0 8px;font:700 21px/1.14 'Zilla Slab',serif;color:#33424D;">{{ a.title }}</h3>
+            <p style="margin:0;font:400 15px/1.55 'Source Sans 3',sans-serif;color:#5A6B75;">{{ a.excerpt }}</p>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ POST VIEW ============ -->
+  <sc-if value="{{ isPost }}" hint-placeholder-val="{{ false }}">
+  <div style="max-width:760px;margin:0 auto;padding:48px 32px 64px;">
+    <a href="#/blog" class="sm-link" style="position:relative;display:inline-flex;align-items:center;gap:7px;font:700 13px 'Source Sans 3',sans-serif;letter-spacing:.04em;color:#279DAC;cursor:pointer;margin-bottom:28px;">{{ t.backToBlog }}</a>
+    <div class="sm-reveal">
+      <div style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.18em;color:#E85C6C;margin-bottom:14px;">{{ post.date }}</div>
+      <h1 style="margin:0 0 28px;font:700 clamp(34px,5vw,52px)/1.06 'Zilla Slab',serif;color:#1F94A3;">{{ post.title }}</h1>
+      <div class="sm-img" style="position:relative;aspect-ratio:16/9;border:1px solid rgba(39,157,172,.28);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:34px;">
+        <img class="sm-zoom" src="{{ post.img }}" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;">
+      </div>
+    </div>
+    <div style="font:400 18px/1.72 'Source Sans 3',sans-serif;color:#3D4D57;">
+      <sc-for list="{{ post.body }}" as="para" hint-placeholder-count="3">
+        <p style="margin:0 0 22px;">{{ para }}</p>
+      </sc-for>
+    </div>
+    <div style="margin-top:30px;padding-top:22px;border-top:1px solid #E7EFF2;font:400 14px/1.6 'Source Sans 3',sans-serif;color:#9AA6AE;font-style:italic;">{{ post.note }}</div>
+  </div>
+  </sc-if>
+
+  <!-- ============ ABOUT VIEW ============ -->
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="background:#E85C6C;color:#FFFFFF;">
+      <div class="sm-reveal" style="max-width:1120px;margin:0 auto;padding:26px 32px 40px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.55);border-bottom:1px solid rgba(255,255,255,.55);padding:9px 2px;font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.22em;">
+          <span>{{ t.navAbout }}</span>
+          <span>{{ t.date }}</span>
+        </div>
+        <h1 style="margin:26px 0 0;text-align:center;font:700 clamp(46px,8.5vw,104px)/0.98 'Zilla Slab',serif;letter-spacing:-.005em;">{{ t.mastTitle }}</h1>
+        <div style="margin:16px 0 0;text-align:center;font:700 13px 'Source Sans 3',sans-serif;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.92);">{{ t.mastSub }}</div>
+      </div>
+    </div>
+
+    <div style="max-width:1120px;margin:0 auto;padding:60px 32px;display:flex;flex-wrap:wrap;gap:52px;align-items:flex-start;">
+      <div class="sm-reveal sm-img" style="position:relative;flex:1 1 300px;min-width:260px;aspect-ratio:4/5;border:1px solid rgba(39,157,172,.28);display:flex;align-items:center;justify-content:center;border-radius:12px;">
+        <img class="sm-zoom" src="images/portrait.jpg" alt="Sandra Mangas" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;">
+      </div>
+      <div class="sm-reveal" style="flex:2 1 460px;min-width:300px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <span style="display:inline-block;width:26px;height:2px;background:#E85C6C;"></span>
+          <span style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.2em;color:#E85C6C;">{{ t.aboutKicker }}</span>
+        </div>
+        <h2 style="margin:0 0 22px;font:700 clamp(32px,4.4vw,48px)/1.04 'Zilla Slab',serif;color:#1F94A3;">{{ t.aboutHead }}</h2>
+        <sc-for list="{{ t.aboutParas }}" as="para" hint-placeholder-count="3">
+          <p style="margin:0 0 20px;font:400 17px/1.66 'Source Sans 3',sans-serif;color:#46555F;max-width:60ch;">{{ para }}</p>
+        </sc-for>
+        <div style="display:flex;flex-wrap:wrap;gap:9px;margin:26px 0 30px;">
+          <sc-for list="{{ t.areas }}" as="area" hint-placeholder-count="5">
+            <a href="#/a/{{ area.key }}" class="sm-pill-out" style="text-decoration:none;border:1px solid #279DAC;color:#1F94A3;border-radius:999px;padding:7px 15px;font:600 13px 'Source Sans 3',sans-serif;cursor:pointer;">{{ area.label }}</a>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:18px;">
+          <sc-for list="{{ t.socials }}" as="soc" hint-placeholder-count="4">
+            <a href="{{ soc.url }}" target="_blank" rel="noopener" class="sm-link" style="position:relative;font:700 14px 'Source Sans 3',sans-serif;color:#279DAC;">{{ soc.label }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div style="background:#F4FAFB;border-top:1px solid #E1EEF1;">
+      <div class="sm-reveal" style="max-width:760px;margin:0 auto;padding:60px 32px;">
+        <h2 style="margin:0 0 10px;font:700 clamp(28px,4vw,40px) 'Zilla Slab',serif;color:#1F94A3;text-align:center;">{{ t.contactTitle }}</h2>
+        <p style="margin:0 0 32px;font:400 16px/1.6 'Source Sans 3',sans-serif;color:#5A6B75;text-align:center;">{{ t.contactBody }}</p>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="display:flex;flex-wrap:wrap;gap:16px;">
+            <input class="sm-field" style="flex:1 1 200px;" type="text" placeholder="{{ t.formName }}">
+            <input class="sm-field" style="flex:1 1 200px;" type="email" placeholder="{{ t.formEmail }}">
+          </div>
+          <textarea class="sm-field" rows="5" style="resize:vertical;" placeholder="{{ t.formMsg }}"></textarea>
+          <span class="sm-pill" style="align-self:flex-start;display:inline-flex;background:#E85C6C;color:#FFFFFF;font:700 14px 'Source Sans 3',sans-serif;padding:14px 30px;border-radius:999px;cursor:pointer;">{{ t.formSend }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background:#E85C6C;color:#FFFFFF;">
+    <div style="max-width:1120px;margin:0 auto;padding:34px 32px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <span style="font:700 16px 'Zilla Slab',serif;">Sandra Mangas</span>
+        <span style="font:600 13px 'Source Sans 3',sans-serif;opacity:.92;">{{ t.mastSub }}</span>
+      </div>
+      <div style="display:flex;gap:28px;font:600 14px 'Source Sans 3',sans-serif;">
+        <a href="#/home" class="sm-link" style="position:relative;cursor:pointer;color:#FFFFFF;">{{ t.navHome }}</a>
+        <a href="#/blog" class="sm-link" style="position:relative;cursor:pointer;color:#FFFFFF;">{{ t.navBlog }}</a>
+        <a href="#/about" class="sm-link" style="position:relative;cursor:pointer;color:#FFFFFF;">{{ t.navAbout }}</a>
+      </div>
+    </div>
+    <div style="max-width:1120px;margin:0 auto;padding:0 32px 30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font:600 13px 'Source Sans 3',sans-serif;opacity:.9;">
+      <span>{{ t.copy }}</span>
+      <span>{{ t.legal }}</span>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { lang: 'es', view: 'home', slug: null, filter: null };
+
+  componentDidMount() {
+    this._onClick = (e) => {
+      const lang = e.target.closest && e.target.closest('[data-lang]');
+      if (lang) { this.setState({ lang: lang.getAttribute('data-lang') }); }
+    };
+    document.addEventListener('click', this._onClick);
+    this._onHash = () => this._applyHash();
+    window.addEventListener('hashchange', this._onHash);
+    this._applyHash();
+    this._arm();
+  }
+
+  componentDidUpdate() {
+    const fk = this.state.filter ? this.state.filter.kind + ':' + this.state.filter.key : '';
+    if (this._lastView !== this.state.view || this._lastSlug !== this.state.slug || this._lastFilter !== fk) {
+      this._lastView = this.state.view;
+      this._lastSlug = this.state.slug;
+      this._lastFilter = fk;
+      window.scrollTo(0, 0);
+      this._arm();
+    }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this._onClick);
+    window.removeEventListener('hashchange', this._onHash);
+    if (this._io) this._io.disconnect();
+    if (this._fb) clearTimeout(this._fb);
+  }
+
+  _applyHash() {
+    const raw = (window.location.hash || '').replace(/^#\/?/, '');
+    let view = 'home', slug = null, filter = null;
+    if (raw.indexOf('post/') === 0) { view = 'post'; slug = raw.slice(5); }
+    else if (raw.indexOf('t/') === 0) { view = 'filter'; filter = { kind: 'type', key: decodeURIComponent(raw.slice(2)) }; }
+    else if (raw.indexOf('a/') === 0) { view = 'filter'; filter = { kind: 'area', key: decodeURIComponent(raw.slice(2)) }; }
+    else if (raw === 'blog' || raw === 'about') { view = raw; }
+    this.setState({ view, slug, filter });
+  }
+
+  _arm() {
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const root = document.querySelector('[data-screen-label="Sandra Mangas — sitio"]') || document.body;
+      root.classList.add('sm-armed');
+      const els = document.querySelectorAll('.sm-reveal:not(.sm-in)');
+      if (!('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('sm-in')); return; }
+      if (this._io) this._io.disconnect();
+      this._io = new IntersectionObserver((entries) => {
+        entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('sm-in'); this._io.unobserve(en.target); } });
+      }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+      els.forEach(e => this._io.observe(e));
+      if (this._fb) clearTimeout(this._fb);
+      this._fb = setTimeout(() => {
+        document.querySelectorAll('.sm-reveal:not(.sm-in)').forEach(e => e.classList.add('sm-in'));
+      }, 900);
+    }));
+  }
+
+  renderVals() {
+    const TEAL = '#279DAC', BLUE = '#4FB0D4', GREEN = '#7CC04C';
+
+    // Real posts migrated from sandramangas.com (newest first).
+    const POSTS = [
+      { slug: 'evaluar-con-ia', date: { es: '9 JUN 2026', en: 'JUN 9, 2026' },
+        es: { title: 'Evaluar con IA', excerpt: 'Evaluar en una empresa simulada no es sencillo. No basta con comprobar si saben hacer una factura, registrar una operación contable o atender a un cliente: hay que medir competencias reales.' },
+        en: { title: 'Assessing with AI', excerpt: 'Assessing in a simulated company is not simple. Checking whether students can issue an invoice, record an accounting entry or serve a customer is not enough: you have to measure real competencies.' } },
+      { slug: 'tastybox', date: { es: '7 OCT 2025', en: 'OCT 7, 2025' },
+        es: { title: 'Nueva empresa simulada: TastyBox', excerpt: 'Este curso en el IES Ribera de Castilla estrenamos TastyBox: cajas corporativas gourmet con productos de Castilla y León. Os cuento cómo nace una empresa simulada, desde el lado del profesor.' },
+        en: { title: 'A new simulated company: TastyBox', excerpt: 'This year at IES Ribera de Castilla we launch TastyBox: gourmet corporate boxes with products from Castilla y León. I share how a simulated company is born, from the teacher’s side.' } },
+      { slug: 'pronunciation-buddy', date: { es: '8 MAY 2025', en: 'MAY 8, 2025' },
+        es: { title: 'Pronunciation Buddy', excerpt: 'Un agente de IA personalizado creado con ChatGPT para ayudar a mejorar la pronunciación en inglés de forma amable y efectiva.' },
+        en: { title: 'Pronunciation Buddy', excerpt: 'A custom AI agent built with ChatGPT to help improve English pronunciation in a kind and effective way.' } },
+      { slug: 'learning-accelerators', date: { es: '6 DIC 2024', en: 'DEC 6, 2024' },
+        es: { title: 'Learning Accelerators', excerpt: 'Probando los Learning Accelerators de Microsoft 365 Education en MS Teams: creación, revisión y análisis de tareas con feedback en tiempo real.' },
+        en: { title: 'Learning Accelerators', excerpt: 'Testing Microsoft 365 Education’s Learning Accelerators in MS Teams: creating, reviewing and analysing assignments with real-time feedback.' } },
+      { slug: 'vidu-videos', date: { es: '24 NOV 2024', en: 'NOV 24, 2024' },
+        es: { title: 'Cómo usar Vidu para crear vídeos con fotos de referencia', excerpt: 'Vidu, una herramienta de creación de vídeo con IA, simplifica el proceso: resultados consistentes incluso con un prompt básico y una sola imagen de referencia.' },
+        en: { title: 'How to use Vidu to create custom videos with reference photos', excerpt: 'Vidu, an AI video-creation tool, simplifies the process: consistent results even with a basic prompt and a single reference image.' } },
+      { slug: 'competency-assessment', date: { es: '14 NOV 2024', en: 'NOV 14, 2024' },
+        es: { title: 'Evaluación por competencias en educación', excerpt: 'La evaluación por competencias es un reto complejo que exige transformar la metodología docente. La LOMLOE obliga a evaluar las competencias clave en todos los niveles.' },
+        en: { title: 'Competency assessment in education', excerpt: 'Competency-based assessment is a complex challenge that requires transforming teaching methodology. Spain’s LOMLOE law requires assessing key competencies at every level.' } },
+      { slug: 'sostenibilidad-fp', date: { es: '30 OCT 2024', en: 'OCT 30, 2024' },
+        es: { title: 'Sostenibilidad en el aula de FP', excerpt: 'Tras el MOOC de sostenibilidad de CaixaBank Dualiza, recopilo ideas y herramientas para llevar la sostenibilidad al aula de Formación Profesional.' },
+        en: { title: 'Sustainability in the VET classroom', excerpt: 'After CaixaBank Dualiza’s sustainability MOOC, I gather ideas and tools to bring sustainability into the Vocational Training classroom.' } },
+      { slug: 'comparing-ai-image-tools', date: { es: '26 OCT 2024', en: 'OCT 26, 2024' },
+        es: { title: 'Comparando herramientas de IA para generar imágenes: Leonardo AI, MidJourney y DALL·E', excerpt: 'Pruebo varias herramientas de IA para crear merchandising de nuestra empresa simulada Riberpublic SLS y comparo Leonardo AI, MidJourney y DALL·E.' },
+        en: { title: 'Comparing AI tools for generating images: Leonardo AI, MidJourney & DALL·E', excerpt: 'I test several AI tools to create merchandising for our simulated company Riberpublic SLS and compare Leonardo AI, MidJourney and DALL·E.' } },
+      { slug: 'videos-canva-d-id', date: { es: '23 OCT 2024', en: 'OCT 23, 2024' },
+        es: { title: 'Crea vídeos profesionales rápido con Canva y D-ID', excerpt: 'Partiendo del mismo guion, creo un vídeo profesional con Canva y D-ID en pocos minutos y lo comparo con otras alternativas.' },
+        en: { title: 'Create professional videos fast with Canva and D-ID', excerpt: 'Starting from the same script, I create a professional video with Canva and D-ID in just a few minutes and compare it with other options.' } },
+      { slug: 'videos-ia-gratis', date: { es: '22 OCT 2024', en: 'OCT 22, 2024' },
+        es: { title: 'Crea vídeos profesionales con IA gratis y rápidamente', excerpt: 'Un pequeño tutorial sobre cómo crear vídeos bastante profesionales a partir de texto, de forma rápida y gratuita.' },
+        en: { title: 'Create professional videos with AI, free and fast', excerpt: 'A short tutorial on how to create fairly professional videos from text, quickly and for free.' } },
+      { slug: 'competencia-digital-docente', date: { es: '14 OCT 2024', en: 'OCT 14, 2024' },
+        es: { title: 'Mi nivel de competencia digital docente', excerpt: 'Preparo la demostración del nivel de competencia digital docente aportando evidencias y explicándolas en pocos minutos.' },
+        en: { title: 'My level of digital teaching competence', excerpt: 'I prepare the demonstration of my digital teaching competence level, providing evidence and explaining it in just a few minutes.' } },
+      { slug: 'empowering-learning-ai', date: { es: '11 OCT 2024', en: 'OCT 11, 2024' },
+        es: { title: 'Potenciar el aprendizaje con IA: mi experiencia en el aula', excerpt: 'Como docente siempre busco mejorar el aprendizaje del alumnado. Comparto cómo la IA se ha convertido en una herramienta clave en mi práctica.' },
+        en: { title: 'Empowering learning with AI: my experience in the classroom', excerpt: 'As a teacher I am always looking to improve my students’ learning. I share how AI has become a key tool in my practice.' } },
+      { slug: 'analisis-mercado', date: { es: '10 OCT 2024', en: 'OCT 10, 2024' },
+        es: { title: 'Guía para el análisis de mercado en planes de empresa', excerpt: 'Comparto la presentación que guía a mi alumnado de Simulación Empresarial para elaborar el análisis de mercado de su plan de empresa.' },
+        en: { title: 'A guide to market analysis in business plans', excerpt: 'I share the presentation that guides my Business Simulation students through the market analysis of their business plan.' } },
+      { slug: 'presentacion-empresa-simulada', date: { es: '4 OCT 2024', en: 'OCT 4, 2024' },
+        es: { title: 'Presentación de la empresa simulada Riberpublic SLS', excerpt: 'Presento a mi alumnado la empresa simulada Riberpublic SLS, con la que trabajaremos la creación, gestión y desarrollo de una empresa este curso.' },
+        en: { title: 'Introducing the simulated company Riberpublic SLS', excerpt: 'I introduce my students to the simulated company Riberpublic SLS, through which we will work on creating, managing and developing a company this year.' } },
+      { slug: 'primera-parte-plan-empresa', date: { es: '23 SEP 2024', en: 'SEP 23, 2024' },
+        es: { title: 'Primera parte del plan de empresa', excerpt: 'Vuelvo a Simulación Empresarial con enfoque "aprender haciendo". Comparto la primera parte del plan de empresa que prepara al alumnado para el mercado laboral.' },
+        en: { title: 'First part of the business plan', excerpt: 'I return to Business Simulation with a learning-by-doing approach. I share the first part of the business plan that prepares students for the job market.' } },
+      { slug: 'entrecomp-champion', date: { es: '15 JUN 2023', en: 'JUN 15, 2023' },
+        es: { title: 'EntreComp Champion', excerpt: 'Una pequeña historia de transformación y empoderamiento: cómo conocí el marco europeo EntreComp y lo que cambió en mi práctica docente.' },
+        en: { title: 'EntreComp Champion', excerpt: 'A small story of transformation and empowerment: how I discovered the European EntreComp framework and what changed in my teaching practice.' } },
+      { slug: 'entrecomp-mnemos', date: { es: '13 JUN 2023', en: 'JUN 13, 2023' },
+        es: { title: 'EntreComp en acción: el proyecto Mnemos', excerpt: 'Tras la visita-estudio "EntreComp for Sustainable Development Goals" en Bruselas, comparto el proyecto Mnemos y su impacto en los ODS.' },
+        en: { title: 'EntreComp in action: the Mnemos project', excerpt: 'After the “EntreComp for Sustainable Development Goals” study visit in Brussels, I share the Mnemos project and its impact on the SDGs.' } },
+      { slug: 'digitalisation-vet', date: { es: '29 ABR 2023', en: 'APR 29, 2023' },
+        es: { title: 'Digitalización en la FP', excerpt: 'Mi primera presentación como holograma en el III Foro de FP de León: digitalización en la Formación Profesional.' },
+        en: { title: 'Digitalisation in VET', excerpt: 'My first presentation as a hologram at the 3rd VET Forum in León: digitalisation in Vocational Education and Training.' } },
+      { slug: 'entrecomp-evaluation-sheets', date: { es: '12 JUL 2022', en: 'JUL 12, 2022' },
+        es: { title: 'Fichas de evaluación EntreComp', excerpt: 'El marco europeo EntreComp ofrece una herramienta para mejorar la capacidad emprendedora de la ciudadanía y las organizaciones, con 3 áreas de competencia, 15 competencias, resultados de aprendizaje y niveles de dominio.' },
+        en: { title: 'EntreComp Evaluation Sheets', excerpt: 'The European EntreComp framework offers a tool to improve the entrepreneurial capacity of citizens and organisations, defining 3 competence areas, 15 competencies, learning outcomes and proficiency levels.' } },
+      { slug: 'entrepreneurial-classroom-activities', date: { es: '10 JUL 2022', en: 'JUL 10, 2022' },
+        es: { title: 'Actividades para el aula de emprendimiento', excerpt: 'Este curso nuestro centro asumió el reto de crear un nuevo espacio: el aula de emprendimiento, un espacio polivalente, digital y dinámico que favorece la innovación y la creatividad.' },
+        en: { title: 'Entrepreneurial Classroom Activities', excerpt: 'This year our school took on the challenge of creating a new space: the entrepreneurship classroom, a multipurpose, digital and dynamic space that favours innovation and creativity.' } },
+      { slug: 'practice-enterprise-fair-arcadeca', date: { es: '1 ABR 2022', en: 'APR 1, 2022' },
+        es: { title: 'Feria de empresas simuladas: ARCADECA', excerpt: 'En el IES Arca Real gestionamos este año 3 empresas simuladas distintas, llevadas por diferentes profesores y gestionadas por alumnado de varios grupos, que participaron en la feria de empresas simuladas.' },
+        en: { title: 'Practice Enterprise Fair: ARCADECA', excerpt: 'At IES Arca Real we run 3 different simulated companies this year, handled by different teachers and managed by students from different groups, who took part in the practice enterprise fair.' } },
+      { slug: 'entrepreneurship-at-ies-arca-real', date: { es: '31 MAR 2022', en: 'MAR 31, 2022' },
+        es: { title: 'Emprendimiento en el IES Arca Real', excerpt: 'En septiembre de 2021 nos invitaron a la reunión inicial de “Promoting Entrepreneurial Centres of Vocational Excellence”, una iniciativa dentro del proyecto ENE de la ETF.' },
+        en: { title: 'Entrepreneurship at IES Arca Real', excerpt: 'In September 2021 we were invited to the kick-off meeting on “Promoting Entrepreneurial Centres of Vocational Excellence”, an initiative under the ETF ENE project.' } },
+      { slug: 'learning-and-skills-virtual-practice-firm', date: { es: '31 MAR 2022', en: 'MAR 31, 2022' },
+        es: { title: 'Aprendizaje y competencias en una empresa simulada virtual', excerpt: 'Nuestro sistema educativo se basa sobre todo en el conocimiento, pero el conocimiento empresarial cambia constantemente. Algunas competencias —creatividad, resolución de problemas— ayudan al alumnado a tener éxito sea cual sea su camino.' },
+        en: { title: 'Learning and skills training in a virtual practice firm', excerpt: 'Our education system is mostly based on knowledge, but business knowledge changes constantly. Some skills — creativity, problem solving — help students succeed whatever path they choose.' } },
+      { slug: 'expods', date: { es: '31 MAR 2022', en: 'MAR 31, 2022' },
+        es: { title: 'ExpODS: exposición virtual sobre los ODS', excerpt: 'Como parte de las actividades del aula de emprendimiento, organizamos en el centro una exposición sobre los Objetivos de Desarrollo Sostenible para fomentar el pensamiento ético y sostenible en nuestra comunidad.' },
+        en: { title: 'ExpODS: SDGs virtual exhibition', excerpt: 'As part of our entrepreneurial classroom activities, we hosted an exhibition on the Sustainable Development Goals at school to promote ethical and sustainable thinking in our community.' } },
+      { slug: 'entrepreneurial-classroom', date: { es: '29 MAR 2022', en: 'MAR 29, 2022' },
+        es: { title: 'Aula de emprendimiento', excerpt: 'Nuestro centro asumió el reto de crear un nuevo espacio: el aula de emprendimiento, un espacio polivalente, digital y dinámico que favorece la innovación y la creatividad.' },
+        en: { title: 'Entrepreneurial classroom', excerpt: 'Our school took on the challenge of creating a new space: the entrepreneurship classroom, a multipurpose, digital and dynamic space that favours innovation and creativity.' } },
+      { slug: 'hr-management-game', date: { es: '27 MAR 2022', en: 'MAR 27, 2022' },
+        es: { title: 'Juego de gestión de RRHH', excerpt: 'Un sencillo juego para comprobar si has entendido los conceptos más relevantes de las unidades 3, 4 y 5 sobre gestión de RRHH, planificación y provisión de puestos.' },
+        en: { title: 'HR management game', excerpt: 'A simple game to check whether you have understood the key concepts of units 3, 4 and 5 on HR management, planning and staff provision.' } },
+      { slug: 'hr-provision-presentation', date: { es: '27 MAR 2022', en: 'MAR 27, 2022' },
+        es: { title: 'Presentación: provisión de RRHH', excerpt: 'Una presentación sobre la provisión de Recursos Humanos y cómo redactar un anuncio de empleo atractivo e informativo.' },
+        en: { title: 'HR provision presentation', excerpt: 'A presentation on Human Resources provision and how to write a compelling and informative job ad.' } },
+      { slug: 'hr-planning-presentation', date: { es: '3 MAR 2022', en: 'MAR 3, 2022' },
+        es: { title: 'Presentación: planificación de RRHH', excerpt: 'La planificación de RRHH es el proceso por el que el departamento identifica las necesidades actuales y futuras de contratación o formación, para asegurar que la empresa cuenta con el talento adecuado en cada área.' },
+        en: { title: 'HR planning presentation', excerpt: 'HR planning is the process by which the HR department identifies current and future hiring or training needs, making sure the business has the right talent across its departments.' } },
+      { slug: 'human-resources-management-presentation', date: { es: '21 NOV 2021', en: 'NOV 21, 2021' },
+        es: { title: 'Presentación: gestión de Recursos Humanos', excerpt: 'La gestión de Recursos Humanos consiste en planificar, atraer, desarrollar y retener a las personas de una organización.' },
+        en: { title: 'Human resources management presentation', excerpt: 'Human resources management consists in planning, attracting, developing and retaining the employees of an organisation.' } },
+      { slug: 'business-ethics-game', date: { es: '21 NOV 2021', en: 'NOV 21, 2021' },
+        es: { title: 'Juego de ética empresarial', excerpt: 'Juega a este pequeño juego y comprueba si lo tienes todo claro sobre la ética empresarial y los ODS 2030.' },
+        en: { title: 'Business ethics game', excerpt: 'Play this little fun game and see if you got everything right about business ethics and the 2030 SDGs.' } },
+      { slug: 'corporate-social-responsibility-presentation', date: { es: '21 NOV 2021', en: 'NOV 21, 2021' },
+        es: { title: 'Presentación: Responsabilidad Social Corporativa', excerpt: 'La RSC es el compromiso de una empresa de gestionar de forma responsable los efectos sociales, ambientales y económicos de su actividad, en línea con las expectativas públicas.' },
+        en: { title: 'Corporate Social Responsibility presentation', excerpt: 'CSR is a company’s commitment to manage the social, environmental and economic effects of its operations responsibly and in line with public expectations.' } },
+      { slug: 'evaluacion-0', date: { es: '16 OCT 2021', en: 'OCT 16, 2021' },
+        es: { title: 'Evaluación 0', excerpt: 'Herramienta para evaluar el nivel inicial de idioma del alumnado (writing, speaking, listening) en Formación Profesional Bilingüe, dentro del módulo de RRHH y RSC.' },
+        en: { title: 'Evaluation 0', excerpt: 'A tool to assess students’ initial language level (writing, speaking, listening) in bilingual Vocational Training, within the HR and CSR module.' } },
+      { slug: 'be-a-great-interviewer', date: { es: '8 JUN 2021', en: 'JUN 8, 2021' },
+        es: { title: 'Sé un gran entrevistador', excerpt: '¿Qué hace falta para ser un gran entrevistador? Trabajo. La clave es estar bien preparado: hacer buenas preguntas y evaluar adecuadamente a un candidato requiere concentración.' },
+        en: { title: 'Be a great interviewer', excerpt: 'What does it take to be a great interviewer? Hard work. The key is to be fully prepared: coming up with great questions while properly evaluating a candidate takes focus.' } },
+      { slug: 'resume-screening-guide', date: { es: '23 ABR 2021', en: 'APR 23, 2021' },
+        es: { title: 'Guía de criba de currículums', excerpt: 'La criba de currículums es el proceso de determinar si un candidato es apto para un puesto a partir de la formación, experiencia y competencias recogidas en su CV.' },
+        en: { title: 'Resumé screening guide', excerpt: 'Resume screening is the process of determining whether a candidate is qualified for a role based on the education, experience and skills captured on their CV.' } },
+      { slug: 'we-are-hiring', date: { es: '23 MAR 2021', en: 'MAR 23, 2021' },
+        es: { title: 'Estamos contratando', excerpt: 'Esta es una oferta de empleo simulada, con fines educativos.' },
+        en: { title: 'We are hiring!', excerpt: 'This is a simulated job offer, for educational purposes.' } },
+      { slug: 'te-estamos-buscando', date: { es: '15 MAR 2021', en: 'MAR 15, 2021' },
+        es: { title: 'Te estamos buscando', excerpt: 'IMPORTANTE: recuerda que es una oferta simulada, publicada con fines educativos. Responderemos a la mayor brevedad a todas las candidaturas, desde DECASARRE SAS.' },
+        en: { title: 'We’re looking for you', excerpt: 'IMPORTANT: remember this is a simulated job offer, published for educational purposes. We will respond as soon as possible to all applications, from DECASARRE SAS.' } },
+      { slug: 'a-peculiar-job-interview', date: { es: '3 MAY 2020', en: 'MAY 3, 2020' },
+        es: { title: 'Una entrevista de trabajo peculiar', excerpt: 'A veces las entrevistas de trabajo son aburridas: todos los candidatos responden igual. ¿Qué harías si el entrevistador te llevara de la mano, o se desmayara en plena entrevista? Prepárate para cualquier cosa.' },
+        en: { title: 'A peculiar job interview', excerpt: 'Job interviews can sometimes be boring, with every candidate answering just the same. What would you do if the interviewer guided you by the hand, or passed out mid-interview? Be ready for anything.' } },
+      { slug: 'interview-questions-and-answers', date: { es: '16 ABR 2020', en: 'APR 16, 2020' },
+        es: { title: 'Preguntas y respuestas de entrevista', excerpt: '“Háblame de ti” es una de las preguntas más habituales en una entrevista. Ni siquiera es una pregunta: es una invitación a compartir lo que consideres importante sobre ti.' },
+        en: { title: 'Interview questions and answers', excerpt: '“Tell me about yourself” is one of the most common interview questions. It is not even a question — it is an invitation to share whatever you think is important about you.' } },
+      { slug: 'resume-selection-process', date: { es: '25 MAR 2020', en: 'MAR 25, 2020' },
+        es: { title: 'Proceso de selección de currículums', excerpt: 'La criba de currículums sigue siendo la parte más laboriosa de la selección: hasta 23 horas por una sola contratación. Consiste en determinar si un candidato es apto a partir de la información de su CV.' },
+        en: { title: 'Resume selection process', excerpt: 'Screening resumes is still the most time-consuming part of recruiting — up to 23 hours for a single hire. It means determining whether a candidate is qualified based on the information on their CV.' } },
+      { slug: 'comentario-critico-de-cv', date: { es: '24 MAR 2020', en: 'MAR 24, 2020' },
+        es: { title: 'Comentario crítico de CV', excerpt: 'En la tarea anterior preparabais vuestro CV para responder a una oferta de Decasarre SAS. Ahora vuestra tarea es poneros en el lugar de un empleado de RRHH y hacer un comentario crítico de uno de los CV recibidos.' },
+        en: { title: 'Critical review of a CV', excerpt: 'In the previous task you prepared your CV to respond to a Decasarre SAS job offer. Now your task is to step into the shoes of an HR employee and write a critical review of one of the CVs received.' } },
+      { slug: 'como-preparar-un-cv-ganador', date: { es: '18 MAR 2020', en: 'MAR 18, 2020' },
+        es: { title: 'Cómo preparar un CV ganador', excerpt: 'El currículum sigue siendo una herramienta fundamental para encontrar trabajo. Es la primera impresión que se llevan las empresas sobre ti: habla de tu atención al detalle, tu profesionalidad, tu creatividad y tu competencia digital.' },
+        en: { title: 'How to prepare a winning CV', excerpt: 'The CV is still a key tool for finding work. It is the first impression companies get of you: it speaks of your attention to detail, professionalism, creativity and digital competence.' } },
+      { slug: 'how-to-write-a-stand-out-cv', date: { es: '15 MAR 2020', en: 'MAR 15, 2020' },
+        es: { title: 'Cómo escribir un CV que destaque', excerpt: 'Mira el siguiente vídeo y luego redacta tu CV. Puedes usar alguna de las plantillas disponibles en internet para darle un aspecto más profesional.' },
+        en: { title: 'How to write a stand out CV', excerpt: 'Watch the following video, and then write your resumé. You might want to use some CV templates, available online, to give it a more professional look.' } },
+      { slug: 'epale-interview', date: { es: '15 MAR 2020', en: 'MAR 15, 2020' },
+        es: { title: 'Entrevista en EPALE', excerpt: 'En enero me entrevistó EPALE, la Plataforma Electrónica para el Aprendizaje de Adultos en Europa, una iniciativa europea para promover y mejorar la calidad de la educación de personas adultas.' },
+        en: { title: 'EPALE interview', excerpt: 'In January I was interviewed by EPALE, the Electronic Platform for Adult Learning in Europe, a European initiative to promote and improve the quality of adult education.' } },
+      { slug: 'job-ad-vs-job-description', date: { es: '6 FEB 2020', en: 'FEB 6, 2020' },
+        es: { title: 'Anuncio de empleo vs descripción del puesto', excerpt: 'Mucha gente confunde el anuncio de empleo con la descripción del puesto. La descripción es un documento interno y detallado de las responsabilidades del puesto; el anuncio busca convencer a los candidatos sobre tu empresa y tu equipo.' },
+        en: { title: 'Job ad vs job description', excerpt: 'Many people confuse job postings with job descriptions. A job description is a detailed, internal account of a role’s responsibilities; a job posting is meant to sell applicants on your company and team.' } },
+      { slug: 'staff-turnover-definition-in-images', date: { es: '11 DIC 2019', en: 'DEC 11, 2019' },
+        es: { title: 'La rotación de personal explicada con imágenes', excerpt: 'Una aproximación visual para entender el concepto de rotación de personal en recursos humanos.' },
+        en: { title: 'Staff turnover, defined in images', excerpt: 'A visual approach to understanding the concept of staff turnover in human resources.' } },
+      { slug: 'elements-of-non-verbal-communication', date: { es: '21 NOV 2019', en: 'NOV 21, 2019' },
+        es: { title: 'Elementos de la comunicación no verbal', excerpt: 'En este vídeo aprenderás ocho tipos de comunicación no verbal: expresión facial, gestos, paralingüística, lenguaje corporal, proxémica, mirada, háptica y apariencia.' },
+        en: { title: 'Elements of non-verbal communication', excerpt: 'In this video you will learn eight types of nonverbal communication: facial expression, hand gestures, paralinguistics, body language, proxemics, gaze, haptics and appearance.' } },
+      { slug: 'for-the-birds-non-verbal-communication', date: { es: '22 OCT 2019', en: 'OCT 22, 2019' },
+        es: { title: 'For the Birds: comunicación no verbal', excerpt: 'Mira el vídeo e identifica distintos ejemplos de comunicación no verbal.' },
+        en: { title: 'For the Birds: non-verbal communication', excerpt: 'Watch the video and identify different examples of non-verbal communication.' } },
+      { slug: 'human-resources-management-introduction', date: { es: '15 OCT 2019', en: 'OCT 15, 2019' },
+        es: { title: 'Introducción a la gestión de Recursos Humanos', excerpt: 'Mira los siguientes vídeos, que incluyen una introducción a la gestión de RRHH y vocabulario básico de Recursos Humanos, e intenta responder a las preguntas del final.' },
+        en: { title: 'Human resources management introduction', excerpt: 'Watch the following videos, which include an introduction to HR management and basic Human Resources vocabulary, and try to answer the questions at the end.' } },
+      { slug: 'now-it-is-your-turn-to-evaluate-my-performance', date: { es: '7 OCT 2019', en: 'OCT 7, 2019' },
+        es: { title: '¡Ahora te toca a ti evaluar mi desempeño!', excerpt: 'Por favor, rellena el cuestionario: tu opinión es muy valiosa. Evaluación del desempeño docente.' },
+        en: { title: 'Now it’s your turn to evaluate my performance!', excerpt: 'Please fill in the questionnaire — your opinion is highly appreciated. Teacher performance evaluation.' } },
+      { slug: 'human-resources-and-corporate-social-responsibility-presentation', date: { es: '24 SEP 2019', en: 'SEP 24, 2019' },
+        es: { title: 'Presentación de Recursos Humanos y RSC', excerpt: 'Este año hablaremos de ética empresarial, responsabilidad social y políticas de RRHH. Empecemos por lo que dice la Declaración Universal de los Derechos Humanos sobre el derecho al trabajo (art. 23).' },
+        en: { title: 'Human Resources and CSR presentation', excerpt: 'This year we will talk about business ethics, social responsibility and HR policies. Let’s start with what the Universal Declaration of Human Rights says about the right to work (Art. 23).' } },
+      { slug: 'millenial-job-interview', date: { es: '13 SEP 2019', en: 'SEP 13, 2019' },
+        es: { title: 'Entrevista de trabajo millennial', excerpt: '¡Vamos a divertirnos! Mira esta divertidísima entrevista de trabajo y luego responde al cuestionario. Recuerda que puedes activar los subtítulos mientras la ves.' },
+        en: { title: 'Millennial job interview', excerpt: 'Let’s have some fun! Watch this hilarious job interview and then answer the quiz. Remember you can turn on the subtitles while watching.' } },
+      { slug: 'corporate-social-responsibility-basics', date: { es: '13 SEP 2019', en: 'SEP 13, 2019' },
+        es: { title: 'Fundamentos de la Responsabilidad Social Corporativa', excerpt: 'Mira el vídeo, luego abre el documento de Word y completa los huecos. Puedes intentarlo tantas veces como quieras. ¡Suerte!' },
+        en: { title: 'Corporate social responsibility basics', excerpt: 'Watch the video, then open the Word document and fill in the gaps. You can try as many times as you wish. Good luck!' } },
+      { slug: 'what-is-business-ethics', date: { es: '13 SEP 2019', en: 'SEP 13, 2019' },
+        es: { title: '¿Qué es la ética empresarial?', excerpt: 'Para decidir si hacer o no algo, pregúntate: ¿te daría vergüenza contarle a tu abuela lo que has hecho? Si la respuesta es sí, no lo hagas.' },
+        en: { title: 'What is business ethics?', excerpt: 'To decide whether or not to do a certain thing, ask yourself: would you be embarrassed to tell your grandma what you’d done? If yes, then don’t do it.' } },
+      { slug: 'job-interview-quiz', date: { es: '13 SEP 2019', en: 'SEP 13, 2019' },
+        es: { title: 'Cuestionario de entrevista de trabajo', excerpt: 'Echa un vistazo al siguiente vídeo, que muestra una entrevista de trabajo habitual, y luego responde al cuestionario.' },
+        en: { title: 'Job interview quiz', excerpt: 'Have a look at the following video showing a common job interview, then answer the quiz below.' } },
+      { slug: 'unit-9-hr-training-what-is-hr-training', date: { es: '28 OCT 2016', en: 'OCT 28, 2016' },
+        es: { title: 'Unidad 9: Formación de RRHH — ¿Qué es la formación de RRHH?', excerpt: 'Mira el siguiente vídeo y luego responde a las preguntas. No olvides hacer clic en “Enviar” cuando termines.' },
+        en: { title: 'Unit 9: HR training — What is HR training?', excerpt: 'Watch the following video and then answer the questions below. Don’t forget to click “Submit” once you are finished.' } },
+      { slug: 'unit-8-hr-performance-evaluation-vocabulary', date: { es: '27 OCT 2016', en: 'OCT 27, 2016' },
+        es: { title: 'Unidad 8: Evaluación del desempeño — Vocabulario', excerpt: 'Aquí tienes vocabulario positivo para evaluar a los empleados: fiabilidad, competencia informática, adaptabilidad, habilidades sociales y más.' },
+        en: { title: 'Unit 8: HR performance evaluation — Vocabulary', excerpt: 'Here are some positive words for evaluating employees: dependability, computer skills, adaptability, people skills and more.' } },
+      { slug: 'teaching-digital-skills', date: { es: '27 OCT 2016', en: 'OCT 27, 2016' },
+        es: { title: 'Enseñar competencias digitales', excerpt: 'Publicado originalmente en el Open Space de la ETF. El impacto de la tecnología y las preocupaciones ambientales sobre las competencias es innegable: casi todas las profesiones requieren ya competencias digitales. ¿Pero cómo enseñarlas?' },
+        en: { title: 'Teaching digital skills', excerpt: 'Originally published in the ETF Open Space. The impact of technology and environmental concerns on skills is undeniable: most professions now require digital skills. But how can we teach them?' } },
+      { slug: 'unit-8-job-performance-evaluation', date: { es: '27 OCT 2016', en: 'OCT 27, 2016' },
+        es: { title: 'Unidad 8: Evaluación del desempeño laboral', excerpt: 'Existen muchos tipos de sistemas de evaluación del desempeño. Una evaluación es la revisión que hace un responsable del trabajo de un empleado, identificando sus fortalezas y áreas de mejora.' },
+        en: { title: 'Unit 8: Job performance evaluation', excerpt: 'There are many types of employee performance review systems. A performance appraisal is a manager’s review where an employee’s work is evaluated and strengths and weaknesses identified.' } },
+      { slug: 'unit-7-candidate-selection-process-most-popular-interview-questions', date: { es: '26 OCT 2016', en: 'OCT 26, 2016' },
+        es: { title: 'Unidad 7: Selección de candidatos — Preguntas de entrevista más habituales', excerpt: 'Háblame de ti. ¿A qué grandes retos te has enfrentado? ¿Cuál ha sido tu mayor fracaso? ¿Cuál es tu mayor debilidad? Una lista de las preguntas de entrevista más habituales.' },
+        en: { title: 'Unit 7: Candidate selection — Most popular interview questions', excerpt: 'Tell me about yourself. What major challenges did you face? What was your biggest failure? What is your greatest weakness? A list of the most popular interview questions.' } },
+      { slug: 'short-essay-who-moved-my-cheese', date: { es: '25 OCT 2016', en: 'OCT 25, 2016' },
+        es: { title: 'Breve ensayo sobre “¿Quién se ha llevado mi queso?” de Spencer Johnson', excerpt: 'Una de las tareas de este curso es leer “¿Quién se ha llevado mi queso?” de Spencer Johnson y escribir un breve ensayo con tu opinión. En el libro, el queso es una metáfora: ¿qué representa?' },
+        en: { title: 'Short essay on “Who Moved My Cheese” by Spencer Johnson', excerpt: 'One of this year’s tasks is to read Spencer Johnson’s “Who Moved My Cheese” and write a short essay giving your opinion. In the book, the cheese is a metaphor — what does it represent?' } },
+      { slug: 'unit-5-hr-planning-job-description-vs-job-specification', date: { es: '24 OCT 2016', en: 'OCT 24, 2016' },
+        es: { title: 'Unidad 5: Planificación de RRHH — Descripción vs especificación del puesto', excerpt: 'El primer paso antes de redactar una oferta es el análisis del puesto: un estudio en profundidad de sus tareas, funciones y responsabilidades. De él salen dos resultados: la descripción y la especificación del puesto.' },
+        en: { title: 'Unit 5: HR planning — Job description vs job specification', excerpt: 'The first step before writing a job offer is job analysis: an in-depth study of a job’s tasks, duties and responsibilities. It produces two outcomes — the job description and the job specification.' } },
+      { slug: 'unit-4-non-verbal-communication-hand-gestures-around-the-world', date: { es: '24 OCT 2016', en: 'OCT 24, 2016' },
+        es: { title: 'Unidad 4: Comunicación no verbal — Gestos por el mundo', excerpt: 'Los gestos no siempre son internacionales: puede haber grandes diferencias entre culturas. Mira el vídeo y responde al cuestionario sobre los gestos en distintos países.' },
+        en: { title: 'Unit 4: Non-verbal communication — Hand gestures around the world', excerpt: 'Gestures are not always international: there can be big differences between cultures. Watch the video and then answer the quiz on hand gestures around the world.' } },
+      { slug: 'unit-3-human-resources-management-modern-times', date: { es: '20 OCT 2016', en: 'OCT 20, 2016' },
+        es: { title: 'Unidad 3: Gestión de RRHH — Tiempos modernos', excerpt: 'Mira un fragmento de la película Tiempos modernos de Charlie Chaplin, luego responde a las preguntas y haz clic en “Enviar”.' },
+        en: { title: 'Unit 3: Human Resources Management — Modern Times', excerpt: 'Watch a clip from Charlie Chaplin’s film Modern Times, then answer the questions below and click “Submit”.' } },
+      { slug: 'unit-1-business-ethics-presentation', date: { es: '20 OCT 2016', en: 'OCT 20, 2016' },
+        es: { title: 'Unidad 1: Ética empresarial — Presentación', excerpt: 'La ética empresarial son los principios morales que guían el comportamiento de una empresa. Las empresas éticas suelen ser más rentables: buscan maximizar el beneficio no solo de la empresa, sino de todas las personas implicadas.' },
+        en: { title: 'Unit 1: Business ethics — Presentation', excerpt: 'Business ethics are the moral principles that guide how a company behaves. Ethical companies are often more profitable, aiming to maximise benefits not only for the company but for everyone involved.' } },
+      { slug: 'unit-7-candidates-selection-process-job-interview-body-language', date: { es: '20 OCT 2016', en: 'OCT 20, 2016' },
+        es: { title: 'Unidad 7: Selección de candidatos — Lenguaje corporal en la entrevista', excerpt: 'Mira el siguiente vídeo y señala 5 errores que comete el candidato durante la entrevista. Recuerda que puedes activar los subtítulos en inglés o español.' },
+        en: { title: 'Unit 7: Candidate selection — Job interview body language', excerpt: 'Watch the following video and point out 5 mistakes the candidate made during the job interview. Remember you can add subtitles in English or Spanish.' } },
+      { slug: 'unit-4-body-language-intro', date: { es: '20 OCT 2016', en: 'OCT 20, 2016' },
+        es: { title: 'Unidad 4: Introducción al lenguaje corporal', excerpt: 'Mira el siguiente vídeo sobre el lenguaje corporal y completa los huecos del texto. Cada día emites señales silenciosas: tu lenguaje corporal revela cómo te sientes de verdad.' },
+        en: { title: 'Unit 4: Body language intro', excerpt: 'Watch the following video about body language and fill in the gaps in the text. You send out silent signals every day — your body language reveals how you truly feel.' } },
+      { slug: 'unit-1-business-ethics-versus-profits', date: { es: '19 OCT 2016', en: 'OCT 19, 2016' },
+        es: { title: 'Unidad 1: Ética empresarial frente a beneficios', excerpt: 'Mira esta imagen y reflexiona. ¿Puede una empresa ética ser realmente más rentable? Busca ejemplos que respalden tu opinión.' },
+        en: { title: 'Unit 1: Business ethics versus profits', excerpt: 'Look at this picture and think about it. Can an ethical company actually be more profitable? Look for examples to back up your opinion.' } },
+      { slug: 'unit-3-human-resources-management', date: { es: '19 OCT 2016', en: 'OCT 19, 2016' },
+        es: { title: 'Unidad 3: Gestión de Recursos Humanos', excerpt: 'Mira el siguiente vídeo en el que Steve Jobs habla sobre la gestión de personas, luego responde a las preguntas y comprueba tu resultado.' },
+        en: { title: 'Unit 3: Human Resources Management', excerpt: 'Watch the following video where Steve Jobs talks about managing people, then answer the questions below and check how you did.' } },
+      { slug: 'unit-2-corporate-social-responsibility-sustainable-development', date: { es: '19 OCT 2016', en: 'OCT 19, 2016' },
+        es: { title: 'Unidad 2: RSC — Desarrollo sostenible', excerpt: '¿Quieres saber qué significa el desarrollo sostenible? Haz clic en la imagen y el Tío Sam te lo contará.' },
+        en: { title: 'Unit 2: CSR — Sustainable development', excerpt: 'Want to know what sustainable development means? Click on the image and Uncle Sam will tell you.' } },
+      { slug: 'unit-2-corporate-social-responsibility', date: { es: '19 OCT 2016', en: 'OCT 19, 2016' },
+        es: { title: 'Unidad 2: Responsabilidad Social Corporativa', excerpt: 'Hoy estudiamos en qué consiste la RSC. La RSC se refiere a la necesidad de que las empresas sean buenas ciudadanas corporativas, yendo más allá de la ley para proteger el medioambiente y contribuir al bienestar social.' },
+        en: { title: 'Unit 2: Corporate Social Responsibility', excerpt: 'Today we study what CSR is all about. CSR refers to the need for businesses to be good corporate citizens, going beyond the law to protect the environment and contribute to social welfare.' } },
+      { slug: 'unit-2-corporate-social-responsibility-sustainability-report', date: { es: '19 OCT 2016', en: 'OCT 19, 2016' },
+        es: { title: 'Unidad 2: RSC — Informe de sostenibilidad', excerpt: 'Según el GRI, un informe de sostenibilidad es el que publica una organización sobre los impactos económicos, ambientales y sociales de su actividad, vinculando su estrategia con el compromiso por una economía sostenible.' },
+        en: { title: 'Unit 2: CSR — Sustainability report', excerpt: 'According to the GRI, a sustainability report is published by an organisation about the economic, environmental and social impacts of its activities, linking its strategy to a commitment to a sustainable economy.' } },
+      { slug: 'introduction-to-human-resources-and-business-ethics', date: { es: '19 OCT 2016', en: 'OCT 19, 2016' },
+        es: { title: 'Introducción a los Recursos Humanos y la ética empresarial', excerpt: 'Lee el artículo 23 de la Declaración Universal de los Derechos Humanos sobre los derechos de los trabajadores: toda persona tiene derecho al trabajo, a la libre elección de empleo y a condiciones equitativas y satisfactorias.' },
+        en: { title: 'Introduction to Human Resources and business ethics', excerpt: 'Read article 23 of the UN Universal Declaration of Human Rights on workers’ rights: everyone has the right to work, to free choice of employment and to just and favourable conditions of work.' } },
+      { slug: 'teaching-digital-skills-education-for-the-future', date: { es: '18 OCT 2016', en: 'OCT 18, 2016' },
+        es: { title: 'Enseñar competencias digitales: educar para el futuro', excerpt: 'El Facebook Live de ETF LearningConnects de esta semana se centró en la enseñanza, el aprendizaje y las competencias digitales. Casi todas las profesiones requieren ya competencias digitales: ¿cómo se adquieren y cómo pueden los docentes ayudar al alumnado a aprenderlas?' },
+        en: { title: 'Teaching digital skills: educating for the future', excerpt: 'This week’s ETF LearningConnects Facebook Live focused on teaching, learning and digital skills. Most professions now require digital skills — but how can they be acquired, and how can teachers help students learn them?' } },
+      { slug: 'welcome', date: { es: '18 OCT 2016', en: 'OCT 18, 2016' },
+        es: { title: 'Bienvenida', excerpt: 'Bienvenido al blog de Recursos Humanos y Responsabilidad Social Corporativa. Aquí encontrarás artículos, enlaces, vídeos y otros recursos con los que trabajaremos durante el curso. ¡Disfrútalo!' },
+        en: { title: 'Welcome', excerpt: 'Welcome to the Human Resources and Corporate Social Responsibility blog. Here you will find articles, links, videos and other resources we will work with during this course. Enjoy!' } }
+    ];
+
+    const NOTE = { es: 'Artículo en proceso de migración desde sandramangas.com — el texto completo se añadirá próximamente.', en: 'Article being migrated from sandramangas.com — the full text will be added soon.' };
+
+    const DICT = {
+      es: {
+        navHome: 'Inicio', navBlog: 'Blog', navAbout: 'Sobre mí',
+        issue: 'NÚMERO 1',
+        mastTitle: 'Sandra Mangas',
+        mastSub: 'Innovación educativa · Formación Profesional',
+        kicker: 'BLOG',
+        imgLabel: 'IMAGEN · BLOG',
+        heroTitle: 'Transformar la educación con tecnología e IA',
+        heroIntro: 'Un espacio donde comparto experiencias, ideas y recursos para transformar la educación a través de nuevas metodologías, la tecnología y la inteligencia artificial.',
+        heroBody: 'Aquí encontrarás artículos sobre proyectos de emprendimiento, el uso de la IA en el aula, actividades para desarrollar competencias y mucho más.',
+        readMore: 'Leer el blog',
+        sideHead: 'Recursos para el aula', allRes: 'Ver todos los recursos',
+        sideItems: [
+          { title: 'Juegos', text: 'Dinámicas para gamificar el aula y motivar al alumnado.' },
+          { title: 'Actividades', text: 'Propuestas listas para llevar a tus sesiones.' },
+          { title: 'Evaluación', text: 'Rúbricas y herramientas para evaluar lo que de verdad importa.' },
+          { title: 'Vídeos', text: 'Explicaciones breves sobre IA y simulación empresarial.' },
+          { title: 'Artículos', text: 'Reflexiones y experiencias docentes del blog.' },
+          { title: 'Presentaciones', text: 'Materiales y diapositivas para compartir en clase.' }
+        ],
+        themes: [
+          { n: '1', label: 'LÍNEA DE TRABAJO', title: 'Simulación empresarial', text: 'Aprender gestionando una empresa simulada real, del proyecto SEFED al aula.', bg: TEAL },
+          { n: '2', label: 'LÍNEA DE TRABAJO', title: 'Inteligencia Artificial', text: 'IA aplicada a la docencia: contenidos, evaluación y atención personalizada.', bg: BLUE },
+          { n: '3', label: 'LÍNEA DE TRABAJO', title: 'RRHH y RSC', text: 'Recursos humanos y responsabilidad social corporativa, en el proyecto bilingüe.', bg: GREEN }
+        ],
+        quote: 'Otra forma de evaluar es posible.',
+        quoteAttr: 'Evaluación digital de competencias emprendedoras',
+        newsTitle: 'Novedades', newsLabel: 'VER TODO EL BLOG',
+        aboutKicker: 'SOBRE MÍ',
+        aboutTitle: 'Hola, soy Sandra',
+        aboutBody: 'Profesora de Administración de Empresas y Simulación Empresarial en el IES Ribera de Castilla. Especializada en competencias emprendedoras, aprender haciendo, innovación educativa, digitalización y excelencia en la FP.',
+        moreAbout: 'Conóceme mejor',
+        areas: ['Digitalización', 'Simulación empresarial', 'Emprendimiento', 'RRHH y RSC', 'Inteligencia Artificial'],
+        portrait: 'RETRATO', imgSlot: 'IMAGEN DEL ARTÍCULO',
+        ctaTitle: 'Otra forma de evaluar es posible',
+        ctaBody: 'Una propuesta de evaluación digital de competencias emprendedoras para empoderar a tu alumnado.',
+        subscribe: 'SUSCRÍBETE', emailPh: 'Escribe tu email…', sendBtn: 'Enviar',
+        talk: 'Hablemos', recipe: 'La receta de la felicidad',
+        copy: '© 2026 Sandra Mangas', legal: 'Privacidad · Aviso legal',
+        blogTitle: 'Blog', blogIntro: 'Un espacio donde comparto experiencias, ideas y recursos sobre cómo transformar la educación a través de nuevas metodologías, la tecnología y la inteligencia artificial. Aquí encontrarás artículos sobre proyectos de emprendimiento, el uso de la IA en el aula, actividades para desarrollar competencias y mucho más.',
+        backToBlog: 'Volver al blog',
+        aboutHead: 'Profesora de FP, innovación educativa e IA',
+        aboutParas: [
+          'Soy profesora de Formación Profesional, especializada en Simulación Empresarial y Formación en Centros de Trabajo. Mi trabajo se centra en las competencias emprendedoras, el "aprender haciendo", la simulación y la innovación educativa.',
+          'Me apasionan la digitalización, la excelencia en la FP y el bilingüismo. Anteriormente fui asesora técnica en la Dirección General de Formación Profesional, con experiencia en el proyecto SEFED y la coordinación del Aula de Emprendimiento.',
+          'En este sitio comparto mi experiencia integrando la inteligencia artificial y nuevas metodologías en el aula, con recursos y proyectos pensados para otros docentes.'
+        ],
+        socials: [
+          { label: 'LinkedIn', url: 'https://www.linkedin.com/in/sandramangas/' },
+          { label: 'X / Twitter', url: 'https://twitter.com/sandeea' },
+          { label: 'Instagram', url: 'https://www.instagram.com/sandeea/' },
+          { label: 'La receta de la felicidad', url: 'http://www.larecetadelafelicidad.com' }
+        ],
+        contactTitle: 'Hablemos', contactBody: 'Si quieres colaborar, preguntar o compartir ideas, escríbeme.',
+        formName: 'Nombre', formEmail: 'Correo electrónico', formMsg: 'Tu mensaje…', formSend: 'Enviar mensaje'
+      },
+      en: {
+        navHome: 'Home', navBlog: 'Blog', navAbout: 'About',
+        issue: 'ISSUE 1',
+        mastTitle: 'Sandra Mangas',
+        mastSub: 'Educational innovation · Vocational Training',
+        kicker: 'BLOG',
+        imgLabel: 'IMAGE · BLOG',
+        heroTitle: 'Transforming education with technology and AI',
+        heroIntro: 'A space where I share experiences, ideas and resources to transform education through new methodologies, technology and artificial intelligence.',
+        heroBody: 'Here you will find articles on entrepreneurial projects, the use of AI in the classroom, activities for developing skills, and much more.',
+        readMore: 'Read the blog',
+        sideHead: 'Classroom resources', allRes: 'See all resources',
+        sideItems: [
+          { title: 'Games', text: 'Dynamics to gamify the classroom and motivate students.' },
+          { title: 'Activities', text: 'Ready-to-use proposals to bring into your sessions.' },
+          { title: 'Evaluation', text: 'Rubrics and tools to evaluate what truly matters.' },
+          { title: 'Videos', text: 'Short explanations on AI and business simulation.' },
+          { title: 'Articles', text: 'Teaching reflections and experiences from the blog.' },
+          { title: 'Presentations', text: 'Slides and materials to share in class.' }
+        ],
+        themes: [
+          { n: '1', label: 'FOCUS AREA', title: 'Business Simulation', text: 'Learning by running a real simulated company, from the SEFED project to the classroom.', bg: TEAL },
+          { n: '2', label: 'FOCUS AREA', title: 'Artificial Intelligence', text: 'AI applied to teaching: content, assessment and personalized attention.', bg: BLUE },
+          { n: '3', label: 'FOCUS AREA', title: 'HR & CSR', text: 'Human resources and corporate social responsibility, also delivered through the bilingual project.', bg: GREEN }
+        ],
+        quote: 'Another way of evaluating is possible.',
+        quoteAttr: 'Digital assessment of entrepreneurial competencies',
+        newsTitle: 'Latest posts', newsLabel: 'SEE THE WHOLE BLOG',
+        aboutKicker: 'ABOUT',
+        aboutTitle: 'Hi, I’m Sandra',
+        aboutBody: 'Business Administration and Business Simulation teacher at IES Ribera de Castilla. Specialized in entrepreneurial skills, learning by doing, educational innovation, digitalization and excellence in VET.',
+        moreAbout: 'Get to know me',
+        areas: ['Digitalisation', 'Business Simulation', 'Entrepreneurship', 'HR & CSR', 'Artificial Intelligence'],
+        portrait: 'PORTRAIT', imgSlot: 'ARTICLE IMAGE',
+        ctaTitle: 'Another way of evaluating is possible',
+        ctaBody: 'A digital approach to assessing entrepreneurial competencies to empower your students.',
+        subscribe: 'SUBSCRIBE', emailPh: 'Type your email…', sendBtn: 'Subscribe',
+        talk: 'Talk to me', recipe: 'La receta de la felicidad',
+        copy: '© 2026 Sandra Mangas', legal: 'Privacy · Legal',
+        blogTitle: 'Blog', blogIntro: 'A space where I share experiences, ideas, and resources on how to transform education through new methodologies, technology, and artificial intelligence. Here you will find articles on entrepreneurial projects, the use of AI in the classroom, activities for developing skills, and much more.',
+        backToBlog: 'Back to the blog',
+        aboutHead: 'VET teacher, educational innovation & AI',
+        aboutParas: [
+          'I am a Vocational Education and Training (VET) teacher, specialized in Business Simulation and Dual Training in companies. My work focuses on entrepreneurial skills, learning by doing, simulation and educational innovation.',
+          'I am passionate about digitalization, excellence in VET and bilingualism. I was previously a technical advisor at the Directorate-General for Vocational Training, with experience in the SEFED project and coordinating the Entrepreneurship Classroom.',
+          'On this site I share my experience integrating artificial intelligence and new methodologies in the classroom, with resources and projects designed for fellow teachers.'
+        ],
+        socials: [
+          { label: 'LinkedIn', url: 'https://www.linkedin.com/in/sandramangas/' },
+          { label: 'X / Twitter', url: 'https://twitter.com/sandeea' },
+          { label: 'Instagram', url: 'https://www.instagram.com/sandeea/' },
+          { label: 'La receta de la felicidad', url: 'http://www.larecetadelafelicidad.com' }
+        ],
+        contactTitle: 'Let’s talk', contactBody: 'If you’d like to collaborate, ask something or share ideas, drop me a line.',
+        formName: 'Name', formEmail: 'E-mail', formMsg: 'Your message…', formSend: 'Send message'
+      }
+    };
+
+    const now = new Date();
+    const MES = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'];
+    const MON = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    DICT.es.date = now.getDate() + ' DE ' + MES[now.getMonth()] + ' DE ' + now.getFullYear();
+    DICT.en.date = MON[now.getMonth()] + ' ' + String(now.getDate()).padStart(2, '0') + ', ' + now.getFullYear();
+
+    const lang = this.state.lang;
+    const isEs = lang === 'es';
+    const tabBase = { padding: '7px 13px' };
+    const view = this.state.view;
+
+    const IMG = {
+      'evaluar-con-ia': 'images/reviewing.jpg',
+      'tastybox': 'images/tastybox.jpg',
+      'pronunciation-buddy': 'images/pronunciation.jpg',
+      'learning-accelerators': 'images/innovation.jpg',
+      'vidu-videos': 'images/vidu.jpg',
+      'competency-assessment': 'images/teamwork.jpg',
+      'sostenibilidad-fp': 'images/sustainability.jpg',
+      'comparing-ai-image-tools': 'images/ai-tools.jpg',
+      'videos-canva-d-id': 'images/video.jpg',
+      'videos-ia-gratis': 'images/video-2.jpg',
+      'competencia-digital-docente': 'images/digital.jpg',
+      'empowering-learning-ai': 'images/innovation-2.jpg',
+      'analisis-mercado': 'images/market.jpg',
+      'presentacion-empresa-simulada': 'images/simulated.jpg',
+      'primera-parte-plan-empresa': 'images/brainstorm.jpg',
+      'entrecomp-champion': 'images/european.jpg',
+      'entrecomp-mnemos': 'images/european-2.jpg',
+      'digitalisation-vet': 'images/digital-2.jpg',
+      'entrecomp-evaluation-sheets': 'images/committee.jpg',
+      'entrepreneurial-classroom-activities': 'images/classroom.jpg',
+      'practice-enterprise-fair-arcadeca': 'images/simulated-2.jpg',
+      'entrepreneurship-at-ies-arca-real': 'images/brainstorm-2.jpg',
+      'learning-and-skills-virtual-practice-firm': 'images/training.jpg',
+      'expods': 'images/sustainability-2.jpg',
+      'entrepreneurial-classroom': 'images/classroom-2.jpg',
+      'hr-management-game': 'images/hr-game.jpg',
+      'hr-provision-presentation': 'images/recruitment.jpg',
+      'hr-planning-presentation': 'images/hr-planning.jpg',
+      'human-resources-management-presentation': 'images/training-2.jpg',
+      'business-ethics-game': 'images/ethics-game.jpg',
+      'corporate-social-responsibility-presentation': 'images/csr-circles.jpg',
+      'evaluacion-0': 'images/oral.jpg',
+      'be-a-great-interviewer': 'images/interview.jpg',
+      'resume-screening-guide': 'images/cv-desk.jpg',
+      'we-are-hiring': 'images/recruitment.jpg',
+      'te-estamos-buscando': 'images/committee.jpg',
+      'a-peculiar-job-interview': 'images/interview-humor.jpg',
+      'interview-questions-and-answers': 'images/interview.jpg',
+      'resume-selection-process': 'images/cv-analysis.jpg',
+      'comentario-critico-de-cv': 'images/cv-prep.jpg',
+      'como-preparar-un-cv-ganador': 'images/cv-prep-2.jpg',
+      'how-to-write-a-stand-out-cv': 'images/cv-analysis.jpg',
+      'epale-interview': 'images/european.jpg',
+      'job-ad-vs-job-description': 'images/recruitment.jpg',
+      'staff-turnover-definition-in-images': 'images/hr-planning.jpg',
+      'elements-of-non-verbal-communication': 'images/nonverbal.jpg',
+      'for-the-birds-non-verbal-communication': 'images/nonverbal.jpg',
+      'human-resources-management-introduction': 'images/training-2.jpg',
+      'now-it-is-your-turn-to-evaluate-my-performance': 'images/reviewing.jpg',
+      'human-resources-and-corporate-social-responsibility-presentation': 'images/csr-circles.jpg',
+      'millenial-job-interview': 'images/interview-quiz.jpg',
+      'corporate-social-responsibility-basics': 'images/sustainability-2.jpg',
+      'what-is-business-ethics': 'images/ethics-game.jpg',
+      'job-interview-quiz': 'images/interview-quiz-2.jpg',
+      'unit-9-hr-training-what-is-hr-training': 'images/training.jpg',
+      'unit-8-hr-performance-evaluation-vocabulary': 'images/reviewing.jpg',
+      'teaching-digital-skills': 'images/digital.jpg',
+      'unit-8-job-performance-evaluation': 'images/committee.jpg',
+      'unit-7-candidate-selection-process-most-popular-interview-questions': 'images/interview.jpg',
+      'short-essay-who-moved-my-cheese': 'images/brainstorm.jpg',
+      'unit-5-hr-planning-job-description-vs-job-specification': 'images/hr-planning.jpg',
+      'unit-4-non-verbal-communication-hand-gestures-around-the-world': 'images/nonverbal.jpg',
+      'unit-3-human-resources-management-modern-times': 'images/training-2.jpg',
+      'unit-1-business-ethics-presentation': 'images/ethics-game.jpg',
+      'unit-7-candidates-selection-process-job-interview-body-language': 'images/interview-quiz.jpg',
+      'unit-4-body-language-intro': 'images/nonverbal.jpg',
+      'unit-1-business-ethics-versus-profits': 'images/ethics-game.jpg',
+      'unit-3-human-resources-management': 'images/training-2.jpg',
+      'unit-2-corporate-social-responsibility-sustainable-development': 'images/sustainability.jpg',
+      'unit-2-corporate-social-responsibility': 'images/csr-circles.jpg',
+      'unit-2-corporate-social-responsibility-sustainability-report': 'images/sustainability-2.jpg',
+      'introduction-to-human-resources-and-business-ethics': 'images/csr-circles.jpg',
+      'teaching-digital-skills-education-for-the-future': 'images/digital-2.jpg',
+      'welcome': 'images/classroom.jpg'
+    };
+
+    const SIDE_IMG = ['images/hr-game.jpg', 'images/teamwork.jpg', 'images/reviewing.jpg', 'images/video.jpg', 'images/digital.jpg', 'images/oral.jpg'];
+
+    // --- Tag system: keys (parallel to sideItems / areas order in both languages) ---
+    const TYPE_KEYS = ['juegos', 'actividades', 'evaluacion', 'videos', 'articulos', 'presentaciones'];
+    const AREA_KEYS = ['digitalizacion', 'simulacion', 'emprendimiento', 'rrhh', 'ia'];
+
+    const TYPE_RULES = [
+      ['juegos', /game|juego/],
+      ['presentaciones', /presentation|presentacion/],
+      ['videos', /video|vidu|for-the-birds|modern-times|millenial|chaplin/],
+      ['evaluacion', /evaluat|evaluac|assessment|performance|screening|criba|desempe|interviewer|interview-quiz|selection-process/],
+      ['actividades', /quiz|fill|gaps|\btask|activit|actividad|essay|comentario|exercise|interview-questions|hiring|buscando|peculiar|body-language|cv$|stand-out|winning|cheese/],
+      ['articulos', /welcome|champion|mnemos|epale|experience|empowering|innovation|sostenibil|sustainab|digitalisation|teaching-digital|competence|introduction/]
+    ];
+    const AREA_RULES = [
+      ['digitalizacion', /digital|teaching-digital|digitalisation|learning-accelerators|competence|competencia-digital/],
+      ['simulacion', /simulat|empresa|plan-empresa|market|tastybox|riberpublic|arcadeca|practice-enterprise|business-plan|analisis-mercado/],
+      ['emprendimiento', /entrecomp|emprend|entrepreneur|expods|champion|mnemos/],
+      ['ia', /\bai\b|-ai-|^ai-|ai-tools|ai-image|chatgpt|vidu|leonardo|midjourney|dall|pronunciation|learning-accelerators|evaluar-con-ia|empowering-learning|comparing-ai/],
+      ['rrhh', /hr-|rrhh|csr|rsc|human-resources|interview|cv|resume|recruitment|ethics|etica|social-responsib|responsabilidad-social|turnover|non-verbal|communication|hiring|job-|performance|selection|candidate|moved-my-cheese|business-ethics|unit-|provision|planning/]
+    ];
+    const classify = (slug) => {
+      const s = slug.toLowerCase();
+      let types = TYPE_RULES.filter(r => r[1].test(s)).map(r => r[0]);
+      let areas = AREA_RULES.filter(r => r[1].test(s)).map(r => r[0]);
+      if (!types.length) types = ['articulos'];
+      if (!areas.length) areas = ['rrhh'];
+      return { types: [...new Set(types)], areas: [...new Set(areas)] };
+    };
+
+    const localized = POSTS.map(p => {
+      const tags = classify(p.slug);
+      return {
+        slug: p.slug,
+        date: p.date[lang],
+        title: p[lang].title,
+        excerpt: p[lang].excerpt,
+        img: IMG[p.slug] || 'images/classroom.jpg',
+        body: (p.body && p.body.length) ? p.body : [p[lang].excerpt],
+        types: tags.types,
+        areas: tags.areas
+      };
+    });
+
+    let post = localized.find(p => p.slug === this.state.slug) || localized[0];
+    post = Object.assign({}, post, { note: NOTE[lang] });
+
+    const t = Object.assign({}, DICT[lang], {
+      sideItems: DICT[lang].sideItems.map((s, i) => Object.assign({}, s, { img: SIDE_IMG[i], key: TYPE_KEYS[i] })),
+      areas: DICT[lang].areas.map((label, i) => ({ label, key: AREA_KEYS[i] })),
+      allBlogLink: isEs ? '← Ver todo el blog' : '← See the whole blog'
+    });
+
+    // --- Filtered view ---
+    const filter = this.state.filter;
+    const TYPE_LABEL = {}; DICT[lang].sideItems.forEach((s, i) => { TYPE_LABEL[TYPE_KEYS[i]] = s.title; });
+    const AREA_LABEL = {}; DICT[lang].areas.forEach((a, i) => { AREA_LABEL[AREA_KEYS[i]] = a; });
+    let filtered = localized, filterTitle = '', filterKicker = '', filterCount = '';
+    if (filter) {
+      filtered = localized.filter(p => (filter.kind === 'type' ? p.types : p.areas).indexOf(filter.key) !== -1);
+      filterTitle = (filter.kind === 'type' ? TYPE_LABEL[filter.key] : AREA_LABEL[filter.key]) || (isEs ? 'Recursos' : 'Resources');
+      filterKicker = filter.kind === 'type' ? (isEs ? 'TIPO DE RECURSO' : 'RESOURCE TYPE') : (isEs ? 'ÁREA DE TRABAJO' : 'FOCUS AREA');
+      const n = filtered.length;
+      filterCount = isEs ? (n + (n === 1 ? ' artículo' : ' artículos')) : (n + (n === 1 ? ' article' : ' articles'));
+    }
+
+    return {
+      t,
+      posts: localized,
+      latest: localized.slice(0, 6),
+      post,
+      isHome: view === 'home',
+      isBlog: view === 'blog',
+      isAbout: view === 'about',
+      isPost: view === 'post',
+      isFilter: view === 'filter',
+      filtered,
+      filterTitle,
+      filterKicker,
+      filterCount,
+      navHomeColor: view === 'home' ? '#279DAC' : '#7A8893',
+      navBlogColor: (view === 'blog' || view === 'filter') ? '#279DAC' : '#7A8893',
+      navAboutColor: view === 'about' ? '#279DAC' : '#7A8893',
+      esTabStyle: { ...tabBase, background: isEs ? '#E1556A' : 'transparent', color: isEs ? '#FFFFFF' : '#E1556A' },
+      enTabStyle: { ...tabBase, background: !isEs ? '#E1556A' : 'transparent', color: !isEs ? '#FFFFFF' : '#E1556A' }
+    };
+  }
+}
+</script>
+</body>
+</html>
