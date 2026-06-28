@@ -17,6 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;}
   body{margin:0;background:#FFFFFF;}
@@ -63,6 +64,120 @@
     .sm-navrow{padding-left:16px !important;padding-right:16px !important;}
   }
 </style>
+<style id="sm-tweak-css">
+  [data-paper="crema"] body{background:#FBF6EC !important;}
+  [data-paper="sepia"] body{background:#F3E9D7 !important;}
+  [data-accent="teal"] .sm-btn:hover{background:#17808D !important;}
+  [data-accent="ink"] .sm-btn:hover{background:#0F1418 !important;}
+  [data-accent="teal"] .sm-pill:hover{box-shadow:0 14px 26px -12px rgba(31,148,163,.6) !important;}
+  [data-accent="ink"] .sm-pill:hover{box-shadow:0 14px 26px -12px rgba(31,42,48,.42) !important;}
+  [data-accent="teal"] .sm-pill-out:hover{background:#1F94A3 !important;}
+  [data-accent="ink"] .sm-pill-out:hover{background:#1F2A30 !important;}
+  #sm-tweaks-panel *{box-sizing:border-box;}
+  #sm-tweaks-fab{transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s ease;}
+  #sm-tweaks-fab:hover{transform:rotate(-12deg) scale(1.05);}
+  .sm-tw-seg{transition:color .18s ease;}
+  @media print{#sm-tweaks-panel{display:none !important;}}
+  @media (max-width:760px){.sm-about-hero{grid-template-columns:1fr !important;}.sm-about-cos{grid-template-columns:1fr !important;}}
+</style>
+<script>
+(function(){
+  if(window.__smTweaksInit) return; window.__smTweaksInit=true;
+  var ACCENTS={ coral:{hex:'#E85C6C',rgb:'232,92,108',label:'Coral'}, teal:{hex:'#1F94A3',rgb:'31,148,163',label:'Teal'}, ink:{hex:'#1F2A30',rgb:'31,42,48',label:'Tinta'} };
+  var TYPES={ periodico:{fam:"'Zilla Slab'",label:'Peri\u00f3dico'}, editorial:{fam:"'Spectral'",label:'Editorial'}, display:{fam:"'Bricolage Grotesque'",label:'Display'} };
+  var PAPERS={ blanco:'Blanco', crema:'Crema', sepia:'Sepia' };
+  var DEF={accent:'coral',type:'periodico',paper:'blanco'}, KEY='sm-tweaks-v1';
+  var state=load();
+  function load(){ try{ return Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||'{}')); }catch(e){ return Object.assign({},DEF); } }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
+  function retint(base){
+    var s=base, a=ACCENTS[state.accent], t=TYPES[state.type];
+    if(state.accent!=='coral'){ s=s.replace(/#E85C6C/gi,a.hex).replace(/232,\s*92,\s*108/g,a.rgb); }
+    if(state.type!=='periodico'){ s=s.replace(/'Zilla Slab'/g,t.fam); }
+    return s;
+  }
+  var raf=null;
+  function schedule(){ if(raf)return; raf=requestAnimationFrame(function(){ raf=null; applyAll(); }); }
+  function applyAll(){
+    var root=document.documentElement;
+    root.setAttribute('data-accent',state.accent);
+    root.setAttribute('data-paper',state.paper);
+    var nodes=document.querySelectorAll('[style]');
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i];
+      if(el.closest&&el.closest('#sm-tweaks-panel'))continue;
+      if(el.__smBase===undefined) el.__smBase=el.getAttribute('style')||'';
+      var next=retint(el.__smBase);
+      if(next!==el.getAttribute('style')) el.setAttribute('style',next);
+    }
+  }
+  function seg(title,map,key){
+    var wrap=document.createElement('div'); wrap.style.cssText='margin-bottom:16px;';
+    var lab=document.createElement('div'); lab.textContent=title;
+    lab.style.cssText="font:700 10px 'Source Sans 3',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#9AA7AE;margin-bottom:8px;";
+    wrap.appendChild(lab);
+    var row=document.createElement('div'); row.style.cssText='display:flex;gap:6px;background:#F1F0EC;border-radius:10px;padding:4px;';
+    var keys=Object.keys(map);
+    keys.forEach(function(k){
+      var b=document.createElement('button'); b.type='button'; b.className='sm-tw-seg'; b.dataset.k=k;
+      b.textContent=(map[k].label||map[k]);
+      b.style.cssText="flex:1;border:none;cursor:pointer;border-radius:7px;padding:8px 6px;font:700 12px 'Source Sans 3',sans-serif;background:transparent;color:#5A6B75;white-space:nowrap;";
+      b.onclick=function(){ state[key]=k; save(); paint(); applyAll(); };
+      row.appendChild(b);
+    });
+    wrap.appendChild(row); wrap._row=row; wrap._key=key;
+    return wrap;
+  }
+  var segs=[];
+  function paint(){
+    segs.forEach(function(w){
+      var active=state[w._key];
+      [].forEach.call(w._row.children,function(b){
+        var on=b.dataset.k===active;
+        b.style.background=on?'#FFFFFF':'transparent';
+        b.style.color=on?'#1F2A30':'#5A6B75';
+        b.style.boxShadow=on?'0 1px 3px rgba(0,0,0,.12)':'none';
+      });
+    });
+  }
+  function build(){
+    var panel=document.createElement('div'); panel.id='sm-tweaks-panel';
+    panel.style.cssText='position:fixed;right:20px;bottom:20px;z-index:9999;font-family:\'Source Sans 3\',sans-serif;';
+    var card=document.createElement('div');
+    card.style.cssText='width:260px;background:#FFFFFF;border:1px solid #E6E1D6;border-radius:16px;box-shadow:0 24px 60px -24px rgba(31,42,48,.45);padding:18px 18px 16px;margin-bottom:12px;transform-origin:bottom right;transition:opacity .2s ease,transform .2s ease;';
+    var head=document.createElement('div'); head.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;';
+    var ht=document.createElement('div'); ht.textContent='Estilo de la p\u00e1gina';
+    ht.style.cssText="font:700 16px 'Zilla Slab',serif;color:#1F2A30;";
+    var hx=document.createElement('button'); hx.type='button'; hx.setAttribute('aria-label','Cerrar'); hx.innerHTML='&times;';
+    hx.style.cssText='border:none;background:transparent;cursor:pointer;font-size:22px;line-height:1;color:#9AA7AE;padding:0 2px;';
+    head.appendChild(ht); head.appendChild(hx); card.appendChild(head);
+    var s1=seg('Acento de marca',ACCENTS,'accent');
+    var s2=seg('Car\u00e1cter tipogr\u00e1fico',TYPES,'type');
+    var s3=seg('Tono del papel',PAPERS,'paper');
+    segs=[s1,s2,s3]; card.appendChild(s1); card.appendChild(s2); card.appendChild(s3);
+    var hint=document.createElement('div'); hint.textContent='Tus ajustes se guardan en este navegador.';
+    hint.style.cssText="font:400 11px/1.4 'Source Sans 3',sans-serif;color:#A7B1B7;margin-top:4px;";
+    card.appendChild(hint);
+    var fab=document.createElement('button'); fab.id='sm-tweaks-fab'; fab.type='button'; fab.setAttribute('aria-label','Ajustes de estilo');
+    fab.style.cssText='float:right;width:50px;height:50px;border:none;border-radius:50%;cursor:pointer;background:#1F2A30;color:#FFFFFF;box-shadow:0 12px 30px -10px rgba(31,42,48,.6);display:flex;align-items:center;justify-content:center;';
+    fab.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8"/><circle cx="9" cy="8" r="2.4" fill="#1F2A30"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.4" fill="#1F2A30"/></svg>';
+    var open=false;
+    function setOpen(o){ open=o; card.style.display=o?'block':'none'; card.style.opacity=o?'1':'0'; card.style.transform=o?'scale(1)':'scale(.92)'; }
+    setOpen(false);
+    fab.onclick=function(){ setOpen(!open); }; hx.onclick=function(){ setOpen(false); };
+    panel.appendChild(card); panel.appendChild(fab);
+    document.body.appendChild(panel);
+    paint();
+  }
+  function init(){
+    if(!document.body){ return setTimeout(init,30); }
+    build(); applyAll();
+    var mo=new MutationObserver(function(m){ for(var i=0;i<m.length;i++){ if(m[i].addedNodes&&m[i].addedNodes.length){ schedule(); return; } } });
+    mo.observe(document.body,{childList:true,subtree:true});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
 </helmet>
 
 <div data-screen-label="Sandra Mangas — sitio" style="background:#FFFFFF;color:#33424D;min-height:100vh;font-family:'Source Sans 3',sans-serif;display:flex;flex-direction:column;">
@@ -346,40 +461,74 @@
       </div>
     </div>
 
-    <div class="sm-gut" style="max-width:1120px;margin:0 auto;padding:60px 32px;display:flex;flex-wrap:wrap;gap:52px;align-items:flex-start;">
-      <div class="sm-reveal sm-img" style="position:relative;flex:1 1 300px;min-width:260px;aspect-ratio:4/5;border:1px solid rgba(39,157,172,.28);display:flex;align-items:center;justify-content:center;border-radius:12px;">
-        <img class="sm-zoom" src="images/portrait.jpg" alt="Sandra Mangas" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;">
-      </div>
-      <div class="sm-reveal" style="flex:2 1 460px;min-width:300px;">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-          <span style="display:inline-block;width:26px;height:2px;background:#E85C6C;"></span>
-          <span style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.2em;color:#E85C6C;">{{ t.aboutKicker }}</span>
+    <div class="sm-gut" style="max-width:1120px;margin:0 auto;padding:60px 32px 36px;">
+      <div class="sm-about-hero" style="display:grid;grid-template-columns:minmax(280px,42%) 1fr;border-radius:14px;overflow:hidden;border:1px solid #E1EEF1;">
+        <div class="sm-reveal" style="position:relative;min-height:520px;background:#11343A;">
+          <img class="sm-zoom" src="images/portrait.jpg" alt="Sandra Mangas" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,52,58,0) 42%,rgba(17,52,58,.82) 100%);"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:34px 32px 30px;">
+            <div style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:10px;">Sandra Mangas</div>
+            <div style="font:700 clamp(26px,2.6vw,38px)/1.04 'Zilla Slab',serif;color:#FFFFFF;">{{ t.aboutHead }}</div>
+          </div>
         </div>
-        <h2 style="margin:0 0 22px;font:700 clamp(32px,4.4vw,48px)/1.04 'Zilla Slab',serif;color:#1F94A3;">{{ t.aboutHead }}</h2>
-        <sc-for list="{{ t.aboutParas }}" as="para" hint-placeholder-count="3">
-          <p style="margin:0 0 20px;font:400 17px/1.66 'Source Sans 3',sans-serif;color:#46555F;max-width:60ch;">{{ para }}</p>
-        </sc-for>
-        <div style="display:flex;flex-wrap:wrap;gap:9px;margin:26px 0 30px;">
-          <sc-for list="{{ t.areas }}" as="area" hint-placeholder-count="5">
-            <a href="#/a/{{ area.key }}" class="sm-pill-out" style="text-decoration:none;border:1px solid #279DAC;color:#1F94A3;border-radius:999px;padding:7px 15px;font:600 13px 'Source Sans 3',sans-serif;cursor:pointer;">{{ area.label }}</a>
+        <div class="sm-reveal" style="padding:46px 44px;background:#FFFFFF;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+            <span style="display:inline-block;width:26px;height:2px;background:#E85C6C;"></span>
+            <span style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.2em;color:#E85C6C;">{{ t.aboutKicker }}</span>
+          </div>
+          <sc-for list="{{ t.aboutParas }}" as="para" hint-placeholder-count="4">
+            <p style="margin:0 0 18px;font:400 16px/1.7 'Source Sans 3',sans-serif;color:#52606A;">{{ para }}</p>
           </sc-for>
-        </div>
-        <div style="margin:6px 0 30px;">
-          <div style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.2em;color:#E85C6C;margin-bottom:14px;">{{ t.companiesLabel }}</div>
-          <div style="display:flex;flex-direction:column;gap:12px;">
-            <sc-for list="{{ t.companies }}" as="co" hint-placeholder-count="3">
-              <a href="{{ co.url }}" target="_blank" rel="noopener" style="text-decoration:none;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;padding:14px 18px;border:1px solid #E1EEF1;border-radius:14px;background:#F8FCFD;">
-                <span style="font:700 16px 'Zilla Slab',serif;color:#1F94A3;white-space:nowrap;">{{ co.name }}</span>
-                <span style="font:400 14px/1.5 'Source Sans 3',sans-serif;color:#5A6B75;">{{ co.desc }}</span>
-              </a>
+          <div style="display:flex;flex-wrap:wrap;gap:9px;margin:24px 0 26px;">
+            <sc-for list="{{ t.areas }}" as="area" hint-placeholder-count="5">
+              <a href="#/a/{{ area.key }}" class="sm-pill-out" style="text-decoration:none;border:1px solid #279DAC;color:#1F94A3;border-radius:999px;padding:7px 15px;font:600 13px 'Source Sans 3',sans-serif;cursor:pointer;">{{ area.label }}</a>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:18px;">
+            <sc-for list="{{ t.socials }}" as="soc" hint-placeholder-count="4">
+              <a href="{{ soc.url }}" target="_blank" rel="noopener" class="sm-link" style="position:relative;font:700 14px 'Source Sans 3',sans-serif;color:#279DAC;">{{ soc.label }}</a>
             </sc-for>
           </div>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:18px;">
-          <sc-for list="{{ t.socials }}" as="soc" hint-placeholder-count="4">
-            <a href="{{ soc.url }}" target="_blank" rel="noopener" class="sm-link" style="position:relative;font:700 14px 'Source Sans 3',sans-serif;color:#279DAC;">{{ soc.label }}</a>
-          </sc-for>
+      </div>
+    </div>
+
+    <div class="sm-gut" style="max-width:760px;margin:0 auto;padding:26px 32px 18px;">
+      <div class="sm-reveal" style="text-align:center;margin-bottom:38px;">
+        <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:14px;">
+          <span style="display:inline-block;width:26px;height:2px;background:#E85C6C;"></span>
+          <span style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.2em;color:#E85C6C;">{{ t.trajKicker }}</span>
+          <span style="display:inline-block;width:26px;height:2px;background:#E85C6C;"></span>
         </div>
+        <h2 style="margin:0 0 14px;font:700 clamp(28px,3.4vw,40px)/1.06 'Zilla Slab',serif;color:#1F94A3;">{{ t.trajHead }}</h2>
+        <p style="margin:0 auto;max-width:60ch;font:400 17px/1.6 'Source Sans 3',sans-serif;color:#46555F;">{{ t.trajLead }}</p>
+      </div>
+      <div style="position:relative;">
+        <div style="position:absolute;left:13px;top:8px;bottom:8px;width:2px;background:linear-gradient(#E85C6C,#279DAC);"></div>
+        <sc-for list="{{ t.timeline }}" as="step" hint-placeholder-count="4">
+          <div class="sm-reveal" style="position:relative;padding:0 0 28px 48px;">
+            <div style="position:absolute;left:6px;top:3px;width:16px;height:16px;border-radius:50%;background:{{ step.color }};border:3px solid #FFFFFF;box-shadow:0 0 0 1px {{ step.color }};"></div>
+            <div style="font:700 13px 'Source Sans 3',sans-serif;letter-spacing:.06em;color:{{ step.color }};margin-bottom:4px;">{{ step.phase }}</div>
+            <div style="font:700 19px 'Zilla Slab',serif;color:#1F2A30;margin-bottom:5px;">{{ step.title }}</div>
+            <p style="margin:0;font:400 15px/1.65 'Source Sans 3',sans-serif;color:#52606A;">{{ step.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div class="sm-gut" style="max-width:1120px;margin:0 auto;padding:34px 32px 60px;">
+      <div class="sm-reveal" style="font:700 12px 'Source Sans 3',sans-serif;letter-spacing:.2em;color:#E85C6C;margin-bottom:18px;">{{ t.companiesLabel }}</div>
+      <div class="sm-about-cos" style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+        <sc-for list="{{ t.companies }}" as="co" hint-placeholder-count="3">
+          <a href="{{ co.url }}" target="_blank" rel="noopener" class="sm-reveal sm-card" style="display:block;border:1px solid #E1EEF1;border-radius:14px;overflow:hidden;background:#F8FCFD;text-decoration:none;">
+            <div style="height:7px;background:{{ co.color }};"></div>
+            <div style="padding:22px 22px 24px;">
+              <div style="font:700 21px 'Zilla Slab',serif;color:#1F94A3;margin-bottom:8px;">{{ co.name }}</div>
+              <div style="font:600 12px 'Source Sans 3',sans-serif;letter-spacing:.04em;color:#8A97A0;margin-bottom:12px;">{{ co.school }}</div>
+              <p style="margin:0;font:400 14px/1.6 'Source Sans 3',sans-serif;color:#52606A;">{{ co.desc }}</p>
+            </div>
+          </a>
+        </sc-for>
       </div>
     </div>
 
@@ -881,8 +1030,15 @@ class Component extends DCLogic {
         backToBlog: 'Volver al blog',
         aboutHead: 'Profesora de FP, innovación educativa e IA',
         aboutParas: ["Soy profesora de Formación Profesional en la familia de Administración y Gestión. Licenciada en Administración y Dirección de Empresas y con un Grado Superior en Lenguas Aplicadas, hablo cuatro idiomas y comencé mi carrera en el sector privado antes de dedicarme a la enseñanza. Actualmente doy clase en el IES Ribera de Castilla, en Valladolid.","Mi forma de enseñar gira en torno al \"aprender haciendo\": la simulación empresarial, las competencias emprendedoras (marco europeo EntreComp), el bilingüismo entendido como inmersión real en la lengua y la integración de la inteligencia artificial y las herramientas digitales en el aula.","He sido Asesora Técnico Docente en el Centro de Apoyo a la Enseñanza, Digitalización, Innovación y Emprendimiento, dependiente de la Dirección General de Formación Profesional de Castilla y León, y formo parte de la comunidad EntreComp Champion. La European Training Foundation y la Comunidad EntreComp me han invitado a compartir mi metodología, y mis proyectos han participado en ferias y concursos nacionales e internacionales.","En este sitio comparto recursos, proyectos y reflexiones pensados para otros docentes: todo lo que voy aprendiendo al llevar la simulación, el emprendimiento y la inteligencia artificial al aula."],
-        companies: [{"name":"DECASARRE SAS","url":"https://decasarre.com","desc":"Empresa simulada del IES Arca Real, dedicada a la producción y venta de quesos y productos gourmet de Castilla y León."},{"name":"Riberpublic SLS","url":"https://riberpublic.com","desc":"Empresa simulada de publicidad, marketing y merchandising en el IES Ribera de Castilla."},{"name":"TastyBox","url":"https://tbtastybox.com","desc":"Empresa simulada de cajas corporativas gourmet con productos de Castilla y León, en el IES Ribera de Castilla."}],
+        companies: [{"name":"DECASARRE SAS","url":"https://decasarre.com","school":"IES Arca Real","color":"#E85C6C","desc":"Producción y venta de quesos y productos gourmet de Castilla y León."},{"name":"Riberpublic SLS","url":"https://riberpublic.com","school":"IES Ribera de Castilla","color":"#279DAC","desc":"Publicidad, marketing y merchandising para empresas simuladas."},{"name":"TastyBox","url":"https://tbtastybox.com","school":"IES Ribera de Castilla","color":"#1F2A30","desc":"Cajas corporativas gourmet con productos de Castilla y León."}],
         companiesLabel: "EMPRESAS SIMULADAS QUE HE DIRIGIDO",
+        trajKicker: 'Mi trayectoria', trajHead: 'Del sector privado al aula que simula el mundo real', trajLead: 'Una idea fija recorre toda mi carrera: que se aprende haciendo.',
+        timeline: [
+          {phase:'Inicio', color:'#E85C6C', title:'Carrera en el sector privado', body:'Empiezo en la empresa antes de dar el salto a la docencia, una experiencia que marca mi forma práctica de enseñar.'},
+          {phase:'Aula', color:'#279DAC', title:'Profesora de FP y empresa simulada', body:'Llevo la simulación empresarial, el bilingüismo como inmersión real y las competencias emprendedoras (EntreComp) al día a día del aula.'},
+          {phase:'Sistema educativo', color:'#279DAC', title:'Asesora Técnico Docente · digitalización e innovación', body:'Apoyo a la enseñanza, la digitalización, la innovación y el emprendimiento en la FP de Castilla y León.'},
+          {phase:'Reconocimiento', color:'#E85C6C', title:'EntreComp Champion · ponente internacional', body:'La European Training Foundation y la Comunidad EntreComp me invitan a compartir mi metodología; mis proyectos participan en ferias y concursos nacionales e internacionales.'}
+        ],
         socials: [
           { label: 'LinkedIn', url: 'https://www.linkedin.com/in/sandramangas/' },
           { label: 'X / Twitter', url: 'https://twitter.com/sandeea' },
@@ -935,8 +1091,15 @@ class Component extends DCLogic {
         backToBlog: 'Back to the blog',
         aboutHead: 'VET teacher, educational innovation & AI',
         aboutParas: ["I am a Vocational Education and Training (VET) teacher in the Business Administration and Management field. I hold a degree in Business Administration and Management and a Higher Degree in Applied Languages, I speak four languages, and I began my career in the private sector before becoming a teacher. I currently teach at IES Ribera de Castilla, in Valladolid, Spain.","My teaching revolves around \"learning by doing\": business simulation, entrepreneurial skills (the European EntreComp framework), bilingualism understood as real language immersion, and integrating artificial intelligence and digital tools into the classroom.","I have worked as a Teaching Support Advisor at the Centre for Teaching Support, Digitalization, Innovation and Entrepreneurship, under the Directorate-General for Vocational Training of Castilla y León, and I am part of the EntreComp Champion community. The European Training Foundation and the EntreComp Community have invited me to share my methodology, and my projects have taken part in national and international fairs and competitions.","On this site I share resources, projects and reflections designed for fellow teachers: everything I learn as I bring simulation, entrepreneurship and artificial intelligence into the classroom."],
-        companies: [{"name":"DECASARRE SAS","url":"https://decasarre.com","desc":"Practice firm at IES Arca Real, producing and selling cheeses and gourmet products from Castilla y León."},{"name":"Riberpublic SLS","url":"https://riberpublic.com","desc":"Advertising, marketing and promotional-merchandise practice firm at IES Ribera de Castilla."},{"name":"TastyBox","url":"https://tbtastybox.com","desc":"Practice firm offering gourmet corporate boxes with products from Castilla y León, at IES Ribera de Castilla."}],
+        companies: [{"name":"DECASARRE SAS","url":"https://decasarre.com","school":"IES Arca Real","color":"#E85C6C","desc":"Production and sale of cheeses and gourmet products from Castilla y León."},{"name":"Riberpublic SLS","url":"https://riberpublic.com","school":"IES Ribera de Castilla","color":"#279DAC","desc":"Advertising, marketing and promotional merchandise for practice firms."},{"name":"TastyBox","url":"https://tbtastybox.com","school":"IES Ribera de Castilla","color":"#1F2A30","desc":"Gourmet corporate boxes with products from Castilla y León."}],
         companiesLabel: "PRACTICE FIRMS I HAVE RUN",
+        trajKicker: 'My journey', trajHead: 'From the private sector to a classroom that simulates the real world', trajLead: 'One idea runs through my whole career: you learn by doing.',
+        timeline: [
+          {phase:'Start', color:'#E85C6C', title:'Career in the private sector', body:'I began in business before moving into teaching — an experience that shapes my hands-on way of teaching.'},
+          {phase:'Classroom', color:'#279DAC', title:'VET teacher & practice firm', body:'I bring business simulation, bilingualism as real immersion and entrepreneurial skills (EntreComp) into everyday classroom life.'},
+          {phase:'Education system', color:'#279DAC', title:'Teaching Support Advisor · digitalization & innovation', body:'Supporting teaching, digitalization, innovation and entrepreneurship in the VET system of Castilla y León.'},
+          {phase:'Recognition', color:'#E85C6C', title:'EntreComp Champion · international speaker', body:'The European Training Foundation and the EntreComp Community invite me to share my methodology; my projects take part in national and international fairs and competitions.'}
+        ],
         socials: [
           { label: 'LinkedIn', url: 'https://www.linkedin.com/in/sandramangas/' },
           { label: 'X / Twitter', url: 'https://twitter.com/sandeea' },
